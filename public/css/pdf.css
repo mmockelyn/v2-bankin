@@ -1,0 +1,149 @@
+body {
+    font-family: Poppins, Arial, 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+}
+
+footer {
+    font-size: 8px;
+}
+
+.body {
+    background-color: #dfe0e0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius-radius: 5px;
+}
+
+.body.white {
+    background-color: #ffffff;
+}
+.page-break {
+    page-break-after: always;
+}
+header {
+    padding: 15px;
+    display: inline-block;
+}
+
+header .logo img {
+    width: 150px;
+    position: relative;
+}
+
+header .banner-title {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background-color: #ff9d00;
+    color: white;
+    width: 750px;
+    position: absolute;
+    text-align: left;
+    left: 245px;
+    top: 0;
+    font-weight: bold;
+    padding: 10px
+}
+
+header .banner-title-content {
+    font-size: 30px;
+}
+
+header .letter-code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 10px;
+    position: absolute;
+    right: 250px;
+    top: 85px
+}
+
+.addressTextClient {
+    font-family: "Courier New", Courier, monospace;
+    width: 350px;
+    display: inline-block;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    color: #171717;
+}
+
+.textInfoClient {
+    display: inline-block;
+    padding-left: 19px;
+    width: 60%;
+}
+
+.alert {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ff9d00;
+    text-align: center;
+}
+
+.container {
+    padding: 15px;
+    display: inline-block;
+    border-radius: 5px;
+}
+.container img {
+    width: 150px;
+    position: relative;
+}
+.container .addressText {
+    width: 300px;
+    position: absolute;
+    text-align: left;
+    left: 185px;
+    top: 30px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff;
+}
+.container .headingText {
+    position: absolute;
+    text-align: right;
+    right: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.fs-1 {
+    font-size: 0.5rem;
+    text-align: center;
+}
+
+.fs-2 {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.fs-3 {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.fs-4 {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.util {
+    width: 70%;
+    border: 3px dashed #ff7b22;
+    border-radius: 20px;
+    margin: 0 45px;
+    padding: 10px;
+}
+
+.table-global {
+    width: 90%;
+    margin: 0 auto;
+    border: 3px solid #ff7b22;
+    border-radius: 20px;
+}
+
+

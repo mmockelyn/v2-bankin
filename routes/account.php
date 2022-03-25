@@ -38,7 +38,9 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
     });
 
     Route::prefix("subscribe")->group(function () {
-        Route::get('/')->name("account.subscribe.index");
+        Route::get('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'index'])->name("account.subscribe.index");
+        Route::post('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'store'])->name("account.subscribe.store");
+        Route::get('overdraft', [\App\Http\Controllers\Account\SubscriptionController::class, 'overdraft'])->name("account.subscribe.overdraft");
     });
 
     Route::prefix('settings')->group(function () {

@@ -212,7 +212,7 @@
                             <i class="fas fa-chevron-right"></i>
                         </a>
                         @if($wallet->customer->package->overdraft == 1)
-                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <a href="{{ route('account.subscribe.overdraft') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 <div class="me-auto">Demander un découvert</div>
                                 <i class="fas fa-chevron-right"></i>
                             </a>

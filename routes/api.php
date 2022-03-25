@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("account")->group(function () {
     Route::post('contact', [\App\Http\Controllers\Api\AccountController::class, 'contact']);
     Route::post('bank', [\App\Http\Controllers\Api\AccountController::class, 'bankInfo']);
+    Route::post('simulate', [\App\Http\Controllers\Api\AccountController::class, 'simulate']);
 });
 
 Route::prefix('transaction')->group(function () {

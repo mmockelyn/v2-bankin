@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Core\Agency;
+use App\Models\User\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +17,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        if(config('app.env') == 'local') {
-            $this->call(TestingSeeder::class);
-        } else {
-            return null;
-        }
+        $this->call(AgencySeeder::class);
+        $this->call(PackageSeeder::class);
+        $this->call(ServiceSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(SubcategorySeeder::class);
+        $this->call(LoanPlanSeeder::class);
+        \Artisan::call("bridge:import");
+
+        $agent = User::create([
+            "name" => "Mockelyn Maxime",
+            "email" => "mmockelyn@bzhm.tk",
+            "password" => \Hash::make("rbU89a-4"),
+            "agency_id" => 1,
+            "agent" => 1,
+            "identifiant" => Str::upper(Str::random(10))
+        ]);
     }
 }

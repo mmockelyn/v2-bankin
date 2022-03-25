@@ -194,7 +194,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Insee' => NSpehler\LaravelInsee\Facades\Insee::class,
-        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ])->toArray(),
 

@@ -12,7 +12,7 @@ class CreditCard
 {
     public function createCard($wallet, $type_carte, $support, $debit, $withdraw = 500, $payment = 1500)
     {
-        $code = rand(1000,9999);
+        $code = rand(1000, 9999);
         $card = $wallet->cards()->create([
             "currency" => "EUR",
             "exp_month" => now()->format('m'),
@@ -23,7 +23,7 @@ class CreditCard
             "brand" => "VISA",
             "support" => $support,
             "debit" => $debit,
-            "cvc" => rand(100,999),
+            "cvc" => rand(100, 999),
             "external_payment" => true,
             "abroad_payment" => true,
             "code" => $code,
@@ -40,7 +40,7 @@ class CreditCard
     public static function getCreditCard($number, $obscure = true)
     {
         if ($obscure == true) {
-            return "XXXX XXXX XXXX ".\Str::substr($number, 12,16);
+            return "XXXX XXXX XXXX " . \Str::substr($number, 12, 16);
         } else {
             return $number;
         }
@@ -50,5 +50,44 @@ class CreditCard
     {
         $generator = new Generator();
         return $generator->single(42, 16);
+    }
+
+    public static function getStatusCard($status, $design = false)
+    {
+        if ($design == false) {
+            switch ($status)
+            {
+                case 'ACTIVE':
+                    return 'Active';
+                    break;
+
+                case 'INACTIVE':
+                    return "Inactive";
+                    break;
+
+                case "CANCELED":
+                    return "Annulé";
+                    break;
+
+                default: return "Annnulé";
+            }
+        } else {
+            switch ($status)
+            {
+                case 'ACTIVE':
+                    return '<div class="ribbon-label bg-success">Active</div>';
+                    break;
+
+                case 'INACTIVE':
+                    return '<div class="ribbon-label bg-warning">Inactive</div>';
+                    break;
+
+                case "CANCELED":
+                    return '<div class="ribbon-label bg-danger">Annulé</div>';
+                    break;
+
+                default: return '<div class="ribbon-label bg-danger">Annulé</div>';
+            }
+        }
     }
 }

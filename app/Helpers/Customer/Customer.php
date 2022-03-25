@@ -59,6 +59,10 @@ class Customer
             "nb_carte_virtuel" => $package->nb_carte_virtuel,
             "cheque" => $package->check
         ]);
+
+        $customer->situation()->create([
+            "customer_id" => $customer->id
+        ]);
     }
 
 

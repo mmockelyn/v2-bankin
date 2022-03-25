@@ -36,7 +36,8 @@
                     <div class="d-flex flex-row flex-center">
                         <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover" style="background-image:url('/storage/{{ $card->support }}.png')">
                             <!--begin::Body-->
-                            <div class="card-body p-6">
+                            <div class="card-body p-6 ribbon ribbon-end">
+                                {!! \App\Helpers\Customer\CreditCard::getStatusCard($card->status, true) !!}
                                 <!--begin::Title-->
                                 <span class="position-absolute top-75 start-25 text-white fw-bold fs-5">{{ \App\Helpers\Customer\CreditCard::getCreditCard($card->number) }}</span>
                                 <span class="position-absolute top-75 start-75 text-white fw-bold fs-6">{{ $card->exp_month }}/{{ Str::substr($card->exp_year, 2,4) }}</span>
