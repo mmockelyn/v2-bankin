@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer\Customer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
+use PDF;
 
 class SubscriptionController extends Controller
 {
@@ -19,7 +19,7 @@ class SubscriptionController extends Controller
     {
         switch ($request->get('action')) {
             case 'overdraft':
-                $this->storeOverdraft($request);
+                return $this->storeOverdraft($request);
                 break;
 
         }
@@ -58,18 +58,22 @@ class SubscriptionController extends Controller
             case "overdraft":
                 $agence = $customer->user->agence;
                 //dd($agence);
+                $header = view()
+                    ->make("agence.pdf.header_basic")
+                    ->with('agence', $agence)
+                    ->with('customer', $customer)
+                    ->render();
 
-
-                $pdf = Pdf::loadView('agence.pdf.contract.loan.decouvert', compact('customer', 'agence'))
-                    ->setOptions(["enable-local-file-access" => true])
-                    ->setOptions(["viewport-size" => "1280x1024"])
-                    ->setOptions(["footer-right" => ["[page]/[topage]"]])
-                    ->setOptions(["footer-font-size" => 8])
-                    ->setOptions(["margin-left" => 0])
-                    ->setOptions(["margin-right" => 0]);
-
-                $pdf->save(public_path('/storage/gdd/'.$customer->id."/contract/decouvert.pdf"));
-                return $pdf->stream("decouvert.pdf");
+                $pdf = PDF::loadView('agence.pdf.contract.loan.decouvert', compact('agence', 'customer'));
+                $pdf->setOption('enable-local-file-access', true);
+                $pdf->setOption('viewport-size','1280x1024');
+                $pdf->setOption('header-html', $header);
+                $pdf->setOption('footer-right','[page]/[topage]');
+                $pdf->setOption('footer-font-size',8);
+                $pdf->setOption('margin-left',0);
+                $pdf->setOption('margin-right',0);
+                $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/decouvert.pdf'), true);
+                return $pdf->inline('decouvert.pdf');
                 break;
         }
     }

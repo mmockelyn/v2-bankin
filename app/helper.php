@@ -32,3 +32,12 @@ if (!function_exists('randColor')) {
         return $color[rand(0,8)];
     }
 }
+
+if (!function_exists('decRound')) {
+    function decRoud(...$routes)
+    {
+        foreach ($routes as $route) {
+            if(Route::currentRouteName() === $route) return 'here show';
+        }
+    }
+}

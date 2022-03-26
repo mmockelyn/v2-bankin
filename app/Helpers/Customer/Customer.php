@@ -145,6 +145,16 @@ class Customer
         }
     }
 
+    public static function getAdress($customer)
+    {
+        if($customer->type_account == 'BUSINESS') {
+            return $customer->company->address.' - '.$customer->company->postal.' '.$customer->company->city;
+        } else {
+            return $customer->individual->address.' - '.$customer->individual->postal.' '.$customer->individual->city;
+        }
+
+    }
+
     private static function createAccount($customer)
     {
         $wallet = new Wallet();
