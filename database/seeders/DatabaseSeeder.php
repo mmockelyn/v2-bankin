@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Core\Agency;
+use App\Models\Core\DocumentCategory;
 use App\Models\User\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(SubcategorySeeder::class);
         $this->call(LoanPlanSeeder::class);
+        $this->call(DocumentCategorySeeder::class);
         \Artisan::call("bridge:import");
 
         $agent = User::create([
@@ -33,5 +35,7 @@ class DatabaseSeeder extends Seeder
             "agent" => 1,
             "identifiant" => Str::upper(Str::random(10))
         ]);
+
+        clear();
     }
 }
