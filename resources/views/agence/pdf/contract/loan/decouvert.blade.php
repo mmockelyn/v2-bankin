@@ -139,9 +139,17 @@ License: For each use you must have a valid license purchased only from above li
         </thead>
         <tbody>
             <tr class="h-50px">
-                <td class="text-center fs-8">Signé éléctroniquement le {{ now()->format('d/m/Y') }}.<br>M. MOCKELYN</td>
+                <td class="text-center fs-8">
+                    @if($document->signed_by_client == true)
+                        Signé éléctroniquement le {{ now()->format('d/m/Y') }}.<br>M. MOCKELYN
+                    @endif
+                </td>
                 <td class="text-center fs-8"></td>
-                <td class="text-center fs-8">Signé éléctroniquement le {{ now()->format('d/m/Y') }} par la banque</td>
+                <td class="text-center fs-8">
+                    @if($document->signed_by_bank == true)
+                        Signé éléctroniquement le {{ now()->format('d/m/Y') }} par la banque
+                    @endif
+                </td>
             </tr>
         </tbody>
     </table>

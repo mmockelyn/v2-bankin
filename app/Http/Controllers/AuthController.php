@@ -52,7 +52,7 @@ class AuthController extends Controller
     {
         if(base64_decode($request->user()->customer->auth_code) == $request->get('auth_code')) {
             session()->put('auth.authCode_confirmed_at', time());
-            return redirect()->to(url()->previous(-2));
+            return redirect()->to(url()->previous(-2), '', '', '');
         } else {
             return redirect()->back()->with('error', "Code Invalide");
         }

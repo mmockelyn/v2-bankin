@@ -30,11 +30,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $start = Carbon::createFromDate('2022', '03', '22');
-        $end = Carbon::createFromDate('2025', '03', '22');
-
-        $diff = $start->diffInMonths($end);
-        dd($diff);
+        clear();
         return 0;
     }
 }

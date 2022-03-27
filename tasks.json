@@ -1,0 +1,89 @@
+[
+    {
+        "id": 1,
+        "description": "Verif compte client en attente d'ouverture",
+        "command": "account:verified",
+        "parameters": null,
+        "expression": null,
+        "timezone": "Europe\/Paris",
+        "is_active": 1,
+        "dont_overlap": 0,
+        "run_in_maintenance": 0,
+        "notification_email_address": null,
+        "notification_phone_number": null,
+        "notification_slack_webhook": "https:\/\/hooks.slack.com\/services\/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",
+        "created_at": "2022-03-27T18:19:24.000000Z",
+        "updated_at": "2022-03-27T18:19:24.000000Z",
+        "auto_cleanup_num": 0,
+        "auto_cleanup_type": "days",
+        "run_on_one_server": 0,
+        "run_in_background": 0,
+        "activated": 1,
+        "upcoming": "2022-03-27 20:21:00",
+        "last_result": {
+            "id": 1,
+            "task_id": 1,
+            "ran_at": "2022-03-27T16:20:10.000000Z",
+            "result": "",
+            "created_at": "2022-03-27T18:20:10.000000Z",
+            "updated_at": "2022-03-27T18:20:10.000000Z",
+            "duration": "1402.45890617370000"
+        },
+        "average_runtime": "1402.458906173700000000",
+        "frequencies": [
+            {
+                "id": 1,
+                "task_id": 1,
+                "label": "Every Minute",
+                "interval": "everyMinute",
+                "created_at": "2022-03-27T18:19:24.000000Z",
+                "updated_at": "2022-03-27T18:19:24.000000Z",
+                "parameters": []
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "description": "Envoie les virements sortants",
+        "command": "account:Transfer",
+        "parameters": null,
+        "expression": null,
+        "timezone": "Europe\/Paris",
+        "is_active": 1,
+        "dont_overlap": 0,
+        "run_in_maintenance": 0,
+        "notification_email_address": null,
+        "notification_phone_number": null,
+        "notification_slack_webhook": "https:\/\/hooks.slack.com\/services\/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",
+        "created_at": "2022-03-27T18:20:10.000000Z",
+        "updated_at": "2022-03-27T18:20:10.000000Z",
+        "auto_cleanup_num": 0,
+        "auto_cleanup_type": "days",
+        "run_on_one_server": 0,
+        "run_in_background": 0,
+        "activated": 1,
+        "upcoming": "2022-03-28 10:00:00",
+        "last_result": null,
+        "average_runtime": 0,
+        "frequencies": [
+            {
+                "id": 2,
+                "task_id": 2,
+                "label": "Daily at",
+                "interval": "dailyAt",
+                "created_at": "2022-03-27T18:20:10.000000Z",
+                "updated_at": "2022-03-27T18:20:10.000000Z",
+                "parameters": [
+                    {
+                        "id": 1,
+                        "frequency_id": 2,
+                        "name": "at",
+                        "value": "10:00:00",
+                        "created_at": "2022-03-27T18:20:10.000000Z",
+                        "updated_at": "2022-03-27T18:20:10.000000Z"
+                    }
+                ]
+            }
+        ]
+    }
+]

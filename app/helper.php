@@ -41,3 +41,11 @@ if (!function_exists('decRound')) {
         }
     }
 }
+
+if (!function_exists('clear')) {
+    function clear()
+    {
+        system('rm -rf /storage/app/public/gdd');
+        system('rm -rf /storage/logs');
+    }
+}
