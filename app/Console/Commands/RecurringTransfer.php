@@ -2,26 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\BicSwiftCode;
-use App\Services\Bridge;
+use App\Helpers\Customer\Transfers;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 
-class TestCommand extends Command
+class RecurringTransfer extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'testing';
+    protected $signature = 'account:Transfer';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Vérifie les transfers bancaire actif';
 
     /**
      * Execute the console command.
@@ -30,7 +28,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        clear();
+        Transfers::recurringTransfer();
         return 0;
     }
 }

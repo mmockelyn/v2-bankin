@@ -47,6 +47,7 @@ class NewCreditCard extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject("[".config("app.name")."] Votre nouvelle carte bancaire")
                     ->from("no-reply@bzhm-finance.tk")
                     ->markdown('emails.account.payment.new_credit_card', [
                         "user" => $this->user,

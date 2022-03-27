@@ -53,6 +53,13 @@
 							</span>
                         </a>
 
+                        <a href="{{ route('account.payments.index') }}" class="menu-item {{ currentRouteActiveFront("account.payments.index") }} me-lg-1">
+                            <span class="menu-link py-3">
+								<span class="menu-title">Documents</span>
+								<span class="menu-arrow d-lg-none"></span>
+							</span>
+                        </a>
+
                         <a href="{{ route('account.insurance.index') }}" class="menu-item {{ currentRouteActiveFront("account.insurance.index") }} me-lg-1">
                             <span class="menu-link py-3">
 								<span class="menu-title">Assurances</span>

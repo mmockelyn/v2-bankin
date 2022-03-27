@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Core\Agency;
+use App\Models\Core\DocumentCategory;
 use App\Models\Customer\Customer;
 use App\Models\Customer\CustomerBeneficiaire;
 use App\Models\Customer\CustomerBeneficiaireBank;
@@ -32,6 +33,7 @@ class TestingSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(SubcategorySeeder::class);
         $this->call(LoanPlanSeeder::class);
+        $this->call(DocumentCategorySeeder::class);
         \Artisan::call("bridge:import");
 
         $users = User::factory(rand(5, 15))->create();
@@ -104,5 +106,6 @@ class TestingSeeder extends Seeder
             "agent" => 1,
             "identifiant" => Str::upper(Str::random(10))
         ]);
+        clear();
     }
 }

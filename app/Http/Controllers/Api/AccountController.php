@@ -86,7 +86,7 @@ class AccountController extends Controller
         if ($r == 4) {
             return response()->json([
                 "access" => true,
-                "value" => ceil($result/100)*100,
+                "value" => $result > 1000 ? 1000 : ceil($result/100)*100,
                 "taux" => $taux . " %"
             ]);
         } else {

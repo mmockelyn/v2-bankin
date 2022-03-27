@@ -50,6 +50,37 @@ License: For each use you must have a valid license purchased only from above li
                 <div class="content flex-row-fluid" id="kt_content">
                     @include("account.layouts.include.alert")
                     @yield("content")
+                    <div class="modal fade" tabindex="-1" id="signed-auth-code">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Code SECURPASS Requis !</h5>
+
+                                    <!--begin::Close-->
+                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                    <!--end::Close-->
+                                </div>
+
+                                <form action="{{ route('auth.code.verify') }}" method="post">
+                                    @csrf
+                                    <div class="modal-body text-center">
+                                        <p>Afin d'authorisé la signature ou le paiement, veuillez entrer votre code SECURPASS définie lors de votre inscription.</p>
+                                        <x-form.input
+                                            name="auth_code"
+                                            required="true"
+                                            type="password"
+                                            label="Code" />
+                                    </div>
+
+                                    <div class="modal-footer text-center">
+                                        <button type="submit" class="btn btn-primary">Authentifier</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!--end::Post-->
             </div>

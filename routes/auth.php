@@ -7,5 +7,5 @@ Route::prefix("auth")->group(function () {
     Route::post('authCode', [\App\Http\Controllers\AuthController::class, 'authCodeInsert']);
 
     Route::get('code', [\App\Http\Controllers\AuthController::class, 'code'])->name('auth.code');
-    Route::post('code', [\App\Http\Controllers\AuthController::class, 'codeVerify'])->name('auth.code.verify');
+    Route::post('code/verify', [\App\Http\Controllers\AuthController::class, 'codeVerify'])->name('auth.code.verify');
 });

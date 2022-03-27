@@ -47,6 +47,7 @@ class CreatedTransaction extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject("[".config("app.name")."] Nouvelle transaction sur votre compte")
                     ->greeting("Bonjour ".$this->user->name)
                     ->line("Une transaction à été éffectué sur votre compte:".$this->transaction->wallet->number_account)
                     ->line('Son montant est de: '.eur($this->transaction->amount))
