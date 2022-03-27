@@ -32,9 +32,10 @@
         <div class="card-body">
             <h2 class="fw-bold fs-4 mb-5">Mes cartes</h2>
             @foreach(request()->user()->customer->wallets as $wallet)
-                @foreach($wallet->cards as $card)
-                    <div class="d-flex flex-row flex-center">
-                        <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover" style="background-image:url('/storage/{{ $card->support }}.png')">
+
+                    <div class="d-flex flex-row justify-content-around flex-center">
+                        @foreach($wallet->cards as $card)
+                        <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover me-5" style="background-image:url('/storage/{{ $card->support }}.png')">
                             <!--begin::Body-->
                             <div class="card-body p-6 ribbon ribbon-end">
                                 {!! \App\Helpers\Customer\CreditCard::getStatusCard($card->status, true) !!}
@@ -47,8 +48,9 @@
                             </div>
                             <!--end::Body-->
                         </div>
+                        @endforeach
                     </div>
-                @endforeach
+
             @endforeach
         </div>
     </div>
@@ -62,6 +64,7 @@
                 </div>
                 <i class="fas fa-chevron-right fs-1 align-content-center"></i>
             </a>
+            @if(request()->user()->customer->setting->cheque == 1)
             <a href="" class="d-flex rounded-2 flex-row justify-content-between align-content-center text-black bg-gray-200 p-5 mb-5 bg-hover-primary text-hover-white">
                 <div class="d-flex flex-column">
                     <span class="fs-4">Chèque</span>
@@ -69,6 +72,7 @@
                 </div>
                 <i class="fas fa-chevron-right fs-1 align-content-center"></i>
             </a>
+            @endif
             <a href="" class="d-flex rounded-2 flex-row justify-content-between text-black bg-gray-200 p-5 mb-5 bg-hover-primary text-hover-white">
                 <div class="d-flex flex-column">
                     <span class="fs-4">Prélèvement</span>
