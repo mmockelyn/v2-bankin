@@ -4,6 +4,7 @@
 namespace App\Helpers\Customer;
 
 
+use App\Mail\Account\Welcome;
 use App\Models\Core\Package;
 use App\Models\Customer\CustomerCompany;
 use App\Models\Customer\CustomerIndividual;
@@ -14,6 +15,7 @@ class Customer
 {
     public function create($type_account, $friendlyName, $user_id, $package, $civility, $firstname, $lastname, $middlename, $address, $addressbis, $postal, $city, $country, $datebirth, $phone, $email, $company = null, $type = null, $siret = null)
     {
+        $wallet = new Wallet();
         $customer = \App\Models\Customer\Customer::create([
             "type_account" => $type_account,
             "friendlyName" => $friendlyName,
@@ -64,6 +66,11 @@ class Customer
         $customer->situation()->create([
             "customer_id" => $customer->id
         ]);
+
+        $wallet->create($customer->id, 1);
+
+
+        return $customer;
     }
 
 
@@ -79,7 +86,6 @@ class Customer
                     if ($customer->individual->datebirth <= now()->subYears(18)) {
                         $customer->status_open_account = 'accepted';
                         $customer->save();
-                        self::createAccount($customer);
                     } else {
                         $customer->status_open_account = 'declined';
                         $customer->save();
@@ -180,7 +186,7 @@ class Customer
         $pdf->setOption('margin-right',0);
         $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/'.\Str::slug($name).'.pdf'), true);
 
-        return $pdf->stream();
+        \Mail::to($customer->user)->send(new Welcome($customer, $document));
     }
 
     private static function createAccount($customer)

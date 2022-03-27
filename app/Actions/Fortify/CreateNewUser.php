@@ -40,7 +40,7 @@ class CreateNewUser implements CreatesNewUsers
             "agency_id" => 1,
             "identifiant" => Str::upper(Str::random(10))
         ]);
-        $cus->create(
+        $customer = $cus->create(
             $input['type_account'],
             $input['type_account'] == 'INDIVIDUAL' ? $input['firstname']." ".$input["lastname"] : $input['name'],
             $user->id,
@@ -64,6 +64,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $user->notify(new PhoneVerificationNotification('sms', true));
         $user->notify(new CreatePasswordNotification($password, $user));
+        Customer::generateConvention($customer);
 
         return $user;
     }
