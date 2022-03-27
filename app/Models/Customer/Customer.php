@@ -62,4 +62,9 @@ class Customer extends Model
     {
         return $this->hasMany(CustomerCreditCard::class);
     }
+
+    public function documents()
+    {
+        return $this->hasMany(CustomerDocument::class);
+    }
 }
