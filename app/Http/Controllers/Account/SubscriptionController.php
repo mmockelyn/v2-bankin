@@ -43,7 +43,13 @@ class SubscriptionController extends Controller
             $wallet->save();
 
             try {
-                return $this->generateContract("overdraft", $customer);
+                $pdf = $this->generateContract("overdraft", $customer);
+                dd($customer, $wallet, $pdf);
+                return view('account.subscribe.signate', [
+                    "customer" => $customer,
+                    "wallet" => $wallet,
+                    "contract" => $pdf
+                ]);
             }catch (\Exception $exception) {
                 return redirect()->back()->with("error", $exception->getMessage());
             }
@@ -73,7 +79,7 @@ class SubscriptionController extends Controller
                 $pdf->setOption('margin-left',0);
                 $pdf->setOption('margin-right',0);
                 $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/decouvert.pdf'), true);
-                return $pdf->inline('decouvert.pdf');
+                return $pdf;
                 break;
         }
     }
