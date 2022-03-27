@@ -85,10 +85,7 @@ class SubscriptionController extends Controller
                 $name = "Autorisation de découvert N°".$customer->wallets()->first()->number_account;
 
                 $document = $file->createDocument(
-                    $name,
-                    $customer,
-                    3,
-                    true
+                    $name, $customer, 3, true, null
                 );
 
                 $pdf = PDF::loadView('agence.pdf.contract.loan.decouvert', compact('agence', 'customer', 'document'));

@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Helpers\Customer\Customer;
+use App\Helpers\Customer\DocumentFile;
 use App\Models\User\User;
 use App\Notifications\Auth\PhoneVerificationNotification;
 use App\Notifications\Customer\CreatePasswordNotification;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Str;
+use PDF;
 
 class CreateNewUser implements CreatesNewUsers
 {

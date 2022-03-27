@@ -12,6 +12,10 @@
         <img src="{{ public_path('/storage/logo_long_color_540.png') }}" alt="{{ $agence->name }}">
     </div>
     <span class="letter-code">{{ Str::upper(Str::random(4)) }} {{ Str::upper(Str::random(4)) }} {{ Str::upper(Str::random(4)) }} CPT{{ $customer->wallets()->first()->number_account }} {{ Str::upper(Str::random(5)) }} {{ Str::upper(Str::random(4)) }}</span>
+    <div style="margin: 20px">
+        <strong>Agence:</strong> {{ $agence->name }}
+    </div>
 </header>
+
 </body>
 </html>

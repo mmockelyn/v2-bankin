@@ -8,6 +8,7 @@ use App\Models\Core\Package;
 use App\Models\Customer\CustomerCompany;
 use App\Models\Customer\CustomerIndividual;
 use NSpehler\LaravelInsee\Facades\Insee;
+use PDF;
 
 class Customer
 {
@@ -155,10 +156,38 @@ class Customer
 
     }
 
+    public static function generateConvention($customer)
+    {
+        $agence = $customer->user->agence;
+        $header = view()
+            ->make("agence.pdf.header_basic")
+            ->with('agence', $agence)
+            ->with('customer', $customer)
+            ->render();
+
+        $file = new DocumentFile();
+        $name = "Souscription Convention relation particulier - CUS".$customer->user->identifiant." - ".now()->format('Ymd');
+
+        $document = $file->createDocument($name, $customer, 3, true, true, true, now());
+
+        $pdf = PDF::loadView('agence.pdf.account.conv_part', compact('agence', 'customer', 'document', 'name'));
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('viewport-size','1280x1024');
+        $pdf->setOption('header-html', $header);
+        $pdf->setOption('footer-right','[page]/[topage]');
+        $pdf->setOption('footer-font-size',8);
+        $pdf->setOption('margin-left',0);
+        $pdf->setOption('margin-right',0);
+        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/'.\Str::slug($name).'.pdf'), true);
+
+        return $pdf->stream();
+    }
+
     private static function createAccount($customer)
     {
         $wallet = new Wallet();
         $account = $wallet->create($customer->id, 1);
 
     }
+
 }
