@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "7.1 || ^8.0",
-        "ext-json": "*",
         "arcanedev/log-viewer": "~9.0",
         "arcanedev/support": "^9.0",
         "arielmejiadev/larapex-charts": "^4.0",
@@ -29,6 +28,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "mmockelyn/laravel-insee": "dev-master",
         "mmockelyn/laravel-messenger": "^9.0",
+        "mmockelyn/laravel-totem": "^8.4",
         "pandadoc/php-client": "^4.3",
         "propaganistas/laravel-phone": "^4.3",
         "rico/bank-swift-code": "1.0.0",

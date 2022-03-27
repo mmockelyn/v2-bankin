@@ -17,9 +17,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->call([Customer::class, 'verified_account'])->hourly();
-        $schedule->call([Transfers::class, 'recurringTransfer'])->dailyAt("10:00:00")->dailyAt("14:00:00")->dailyAt("16:00:00");
     }
 
     /**
