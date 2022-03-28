@@ -3,7 +3,7 @@
 echo "$1"
 
 if [ $1 == 'install' ]; then
-    composer install --no-dev --no-interaction --ignore-platform-reqs
+    composer install --no-interaction --ignore-platform-reqs --optimize-autoloader --prefer-dist
     if [ $2 == 'sandbox' ];
     then
         cp .env.sandbox .env
@@ -28,7 +28,7 @@ else
     else
         git checkout release
     fi
-    composer install --no-dev --no-interaction --ignore-platform-reqs
+    composer install --no-interaction --ignore-platform-reqs --optimize-autoloader --prefer-dist
     php artisan migrate --force
     php artisan queue:restart --quiet
     php artisan cache:clear

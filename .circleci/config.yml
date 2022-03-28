@@ -41,15 +41,3 @@ jobs:
           command: |
             touch database/database.sqlite
             php artisan migrate --env=testing
-
-      - run:
-          name: "Deploy To testing Server"
-          command: |
-            ssh $SSH_USER@$SSH_HOST
-            cd $DIR_TEST
-            git pull
-            git checkout master
-            composer install --no-dev --ignore-platform-reqs
-            php artisan config:clear
-            php artisan migrate --force
-            php artisan clear
