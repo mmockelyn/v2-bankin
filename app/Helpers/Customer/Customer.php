@@ -4,6 +4,7 @@
 namespace App\Helpers\Customer;
 
 
+use App\Mail\Account\FirstPaymentRequired;
 use App\Mail\Account\Welcome;
 use App\Models\Core\Package;
 use App\Models\Customer\CustomerCompany;
@@ -86,6 +87,7 @@ class Customer
                     if ($customer->individual->datebirth <= now()->subYears(18)) {
                         $customer->status_open_account = 'accepted';
                         $customer->save();
+                        \Mail::to($customer->user)->send(new FirstPaymentRequired($customer));
                     } else {
                         $customer->status_open_account = 'declined';
                         $customer->save();
@@ -99,6 +101,7 @@ class Customer
                     } else {
                         $customer->status_open_account = 'accepted';
                         $customer->save();
+                        \Mail::to($customer->user)->send(new FirstPaymentRequired($customer));
                     }
                 }
             }
