@@ -6,7 +6,7 @@
                     <div class="header-row">
                         <div class="header-logo">
                             <a href="{{ route('home') }}">
-                                <img alt="Porto" width="150" data-sticky-width="82" src="/storage/logo.png">
+                                <img alt="Porto" width="150" data-sticky-width="82" src="/storage/logo_long_color.png">
                             </a>
                         </div>
                     </div>
