@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('cvc', 4);
             $table->boolean('external_payment')->default(true);
             $table->boolean('abroad_payment')->default(true);
+            $table->boolean('contact')->default(true);
             $table->string('code');
             $table->float('withdraw_limit');
             $table->float('payment_limit');

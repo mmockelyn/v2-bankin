@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Helpers\Customer\Customer;
+use App\Helpers\Customer\DocumentFile;
 use App\Models\User\User;
 use App\Notifications\Auth\PhoneVerificationNotification;
 use App\Notifications\Customer\CreatePasswordNotification;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Str;
+use PDF;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -38,7 +40,7 @@ class CreateNewUser implements CreatesNewUsers
             "agency_id" => 1,
             "identifiant" => Str::upper(Str::random(10))
         ]);
-        $cus->create(
+        $customer = $cus->create(
             $input['type_account'],
             $input['type_account'] == 'INDIVIDUAL' ? $input['firstname']." ".$input["lastname"] : $input['name'],
             $user->id,
@@ -62,6 +64,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $user->notify(new PhoneVerificationNotification('sms', true));
         $user->notify(new CreatePasswordNotification($password, $user));
+        Customer::generateConvention($customer);
 
         return $user;
     }
