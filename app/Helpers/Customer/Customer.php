@@ -4,15 +4,19 @@
 namespace App\Helpers\Customer;
 
 
+use App\Mail\Account\FirstPaymentRequired;
+use App\Mail\Account\Welcome;
 use App\Models\Core\Package;
 use App\Models\Customer\CustomerCompany;
 use App\Models\Customer\CustomerIndividual;
 use NSpehler\LaravelInsee\Facades\Insee;
+use PDF;
 
 class Customer
 {
     public function create($type_account, $friendlyName, $user_id, $package, $civility, $firstname, $lastname, $middlename, $address, $addressbis, $postal, $city, $country, $datebirth, $phone, $email, $company = null, $type = null, $siret = null)
     {
+        $wallet = new Wallet();
         $customer = \App\Models\Customer\Customer::create([
             "type_account" => $type_account,
             "friendlyName" => $friendlyName,
@@ -63,6 +67,11 @@ class Customer
         $customer->situation()->create([
             "customer_id" => $customer->id
         ]);
+
+        $wallet->create($customer->id, 1);
+
+
+        return $customer;
     }
 
 
@@ -78,7 +87,7 @@ class Customer
                     if ($customer->individual->datebirth <= now()->subYears(18)) {
                         $customer->status_open_account = 'accepted';
                         $customer->save();
-                        self::createAccount($customer);
+                        \Mail::to($customer->user)->send(new FirstPaymentRequired($customer));
                     } else {
                         $customer->status_open_account = 'declined';
                         $customer->save();
@@ -92,6 +101,7 @@ class Customer
                     } else {
                         $customer->status_open_account = 'accepted';
                         $customer->save();
+                        \Mail::to($customer->user)->send(new FirstPaymentRequired($customer));
                     }
                 }
             }
@@ -155,10 +165,38 @@ class Customer
 
     }
 
+    public static function generateConvention($customer)
+    {
+        $agence = $customer->user->agence;
+        $header = view()
+            ->make("agence.pdf.header_basic")
+            ->with('agence', $agence)
+            ->with('customer', $customer)
+            ->render();
+
+        $file = new DocumentFile();
+        $name = "Souscription Convention relation particulier - CUS".$customer->user->identifiant." - ".now()->format('Ymd');
+
+        $document = $file->createDocument($name, $customer, 3, true, true, true, now());
+
+        $pdf = PDF::loadView('agence.pdf.account.conv_part', compact('agence', 'customer', 'document', 'name'));
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('viewport-size','1280x1024');
+        $pdf->setOption('header-html', $header);
+        $pdf->setOption('footer-right','[page]/[topage]');
+        $pdf->setOption('footer-font-size',8);
+        $pdf->setOption('margin-left',0);
+        $pdf->setOption('margin-right',0);
+        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/'.\Str::slug($name).'.pdf'), true);
+
+        \Mail::to($customer->user)->send(new Welcome($customer, $document));
+    }
+
     private static function createAccount($customer)
     {
         $wallet = new Wallet();
         $account = $wallet->create($customer->id, 1);
 
     }
+
 }
