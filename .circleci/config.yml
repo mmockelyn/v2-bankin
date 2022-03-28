@@ -8,7 +8,7 @@ jobs:
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: 'zKoMJ01VkFqc5lvi'
+          MYSQL_ROOT_PASSWORD: ''
           MYSQL_DATABASE: finbank
 
     working_directory: /home/cloudpanel/htdocs/sandbox.finbank.tk/public
