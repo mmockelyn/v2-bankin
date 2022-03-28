@@ -8,13 +8,13 @@ if [ $1 == 'install' ]; then
     then
         cp .env.sandbox .env
         php artisan key:generate
-        php artisan migrate --force
+        php artisan migrate:fresh --force
         php artisan db:seed --class=TestingSeeder
         php artisan queue:restart --quiet
     else
         cp .env.prod .env
         php artisan key:generate
-        php artisan migrate --force
+        php artisan migrate:fresh --force
         php artisan db:seed
         php artisan queue:restart --quiet
     fi
