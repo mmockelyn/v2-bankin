@@ -50,11 +50,20 @@ class AuthController extends Controller
 
     public function codeVerify(Request $request)
     {
-        if(base64_decode($request->user()->customer->auth_code) == $request->get('auth_code')) {
-            session()->put('auth.authCode_confirmed_at', time());
-            return redirect()->to(url()->previous(-2), '', '', '');
+        sleep(2);
+        if($request->isJson()) {
+            if(base64_decode($request->user()->customer->auth_code) == $request->get('auth_code')) {
+                return response()->json();
+            } else {
+                return response()->json("Code SECURPASS Invalide", 500);
+            }
         } else {
-            return redirect()->back()->with('error', "Code Invalide");
+            if(base64_decode($request->user()->customer->auth_code) == $request->get('auth_code')) {
+                session()->put('auth.authCode_confirmed_at', time());
+                return redirect()->to(url()->previous(-2), '', '', '');
+            } else {
+                return redirect()->back()->with('error', "Code Invalide");
+            }
         }
     }
 }

@@ -101,6 +101,7 @@ License: For each use you must have a valid license purchased only from above li
 <!--end::Global Javascript Bundle-->
 <!--begin::Page Vendors Javascript(used by this page)-->
 <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<script src="/js/app.js"></script>
 <!--end::Page Vendors Javascript-->
 <!--begin::Page Custom Javascript(used by this page)-->
 @include("scripts.global")

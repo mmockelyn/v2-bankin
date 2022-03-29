@@ -4,9 +4,12 @@
 namespace App\Helpers\Customer;
 
 
+use App\Jobs\Account\WelcomeContractJob;
+use App\Mail\Account\FirstPaymentReceived;
 use App\Notifications\Customer\Payment\CodeCreditCard;
 use App\Notifications\Customer\Payment\NewCreditCard;
 use Plansky\CreditCard\Generator;
+use PDF;
 
 class CreditCard
 {
@@ -35,6 +38,9 @@ class CreditCard
 
         $wallet->customer->user->notify(new NewCreditCard($wallet->customer->user, $card));
         $wallet->customer->user->notify(new CodeCreditCard($card, $code));
+        $document = self::generateContract($wallet->customer, $card);
+        \Mail::to($wallet->customer->user)->send(new FirstPaymentReceived($wallet->customer));
+        WelcomeContractJob::dispatch($wallet->customer, $document)->delay(now()->addMinutes(5));
     }
 
     public static function getCreditCard($number, $obscure = true)
@@ -46,6 +52,34 @@ class CreditCard
         }
     }
 
+    public static function isDiffered($debit)
+    {
+        return $debit != 'DIFFERED' ? false : true;
+    }
+
+    public static function getDebit($debit)
+    {
+        return $debit == 'DIFFERED' ? "Différé" : "Immédiat";
+    }
+
+    public static function getType($type)
+    {
+        switch ($type) {
+            case 'PHYSICAL':
+                return 'Physique';
+                break;
+
+            case 'VIRTUAL':
+                return 'Virtuel';
+                break;
+        }
+    }
+
+    public static function getContact($contact)
+    {
+        return $contact == 1 ? "OUI" : "NON";
+    }
+
     private function generateCard()
     {
         $generator = new Generator();
@@ -55,8 +89,7 @@ class CreditCard
     public static function getStatusCard($status, $design = false)
     {
         if ($design == false) {
-            switch ($status)
-            {
+            switch ($status) {
                 case 'ACTIVE':
                     return 'Active';
                     break;
@@ -69,11 +102,11 @@ class CreditCard
                     return "Annulé";
                     break;
 
-                default: return "Annnulé";
+                default:
+                    return "Annnulé";
             }
         } else {
-            switch ($status)
-            {
+            switch ($status) {
                 case 'ACTIVE':
                     return '<div class="ribbon-label bg-success">Active</div>';
                     break;
@@ -86,8 +119,38 @@ class CreditCard
                     return '<div class="ribbon-label bg-danger">Annulé</div>';
                     break;
 
-                default: return '<div class="ribbon-label bg-danger">Annulé</div>';
+                default:
+                    return '<div class="ribbon-label bg-danger">Annulé</div>';
             }
         }
+    }
+
+    // Generate Convention
+    public static function generateContract($customer, $card)
+    {
+        $agence = $customer->user->agence;
+        $header = view()
+            ->make("agence.pdf.header_basic")
+            ->with('agence', $agence)
+            ->with('customer', $customer)
+            ->render();
+
+        $file = new DocumentFile();
+        $reference = \Str::upper(\Str::random(10));
+        $name = "Souscription Contrat Carte GFC" . $reference . " - " . now()->format('Ymd');
+
+        $document = $file->createDocument($name, $customer, 3, $reference, true, true, true, now());
+
+        $pdf = PDF::loadView('agence.pdf.account.conv_cb', compact('agence', 'customer', 'document', 'name', 'card'));
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('viewport-size', '1280x1024');
+        $pdf->setOption('header-html', $header);
+        $pdf->setOption('footer-right', '[page]/[topage]');
+        $pdf->setOption('footer-font-size', 8);
+        $pdf->setOption('margin-left', 0);
+        $pdf->setOption('margin-right', 0);
+        $pdf->save(public_path('/storage/gdd/' . $customer->id . '/contract/' . \Str::slug($name) . '.pdf'), true);
+
+        return $document;
     }
 }

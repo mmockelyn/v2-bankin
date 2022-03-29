@@ -32,6 +32,7 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
     Route::prefix("payments")->group(function () {
         Route::get('/', [\App\Http\Controllers\Account\PaymentController::class, 'index'])->name("account.payments.index");
         Route::post('/add-cart', [\App\Http\Controllers\Account\PaymentController::class, 'add_cart'])->name("account.payment.addCart");
+        Route::get('/virtual', [\App\Http\Controllers\Account\PaymentController::class, 'virtual'])->name("account.payments.virtual.index");
     });
 
     Route::prefix("insurance")->group(function () {

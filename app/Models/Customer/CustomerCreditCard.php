@@ -13,7 +13,7 @@ class CustomerCreditCard extends Model
 
     public function wallet()
     {
-        return $this->belongsTo(CustomerWallet::class);
+        return $this->belongsTo(CustomerWallet::class, 'customer_wallet_id');
     }
 
     public function customer()

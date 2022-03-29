@@ -9,12 +9,14 @@
         "arcanedev/log-viewer": "~9.0",
         "arcanedev/support": "^9.0",
         "arielmejiadev/larapex-charts": "^4.0",
+        "aws/aws-sdk-php": "^3.216",
         "barryvdh/laravel-dompdf": "^1.0",
         "barryvdh/laravel-snappy": "^1.0",
         "creativeorange/gravatar": "^1.0",
         "escuelademusica/laravel-mjml": "^0.1.2",
         "fruitcake/laravel-cors": "^2.0.5",
-        "guzzlehttp/guzzle": "^7.2",
+        "graham-campbell/github": "^10.5",
+        "guzzlehttp/guzzle": "^7.4",
         "h4cc/wkhtmltopdf-i386": "^0.12.4",
         "intervention/validation": "3.1.0",
         "lab404/laravel-auth-checker": "^1.6",
@@ -24,7 +26,9 @@
         "laravel/framework": "^9.0",
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.14",
+        "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.7",
+        "laravel/vonage-notification-channel": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
         "mmockelyn/laravel-insee": "dev-master",
         "mmockelyn/laravel-messenger": "^9.0",
@@ -37,11 +41,12 @@
         "spatie/browsershot": "^3.52",
         "spatie/laravel-slack-alerts": "^1.0",
         "stripe/stripe-php": "^7.117",
-        "transferwise/wise-php": "^0.2.0",
         "viacreative/sudo-su": "^1.1"
     },
     "require-dev": {
+        "deployer/deployer": "*",
         "fakerphp/faker": "^1.9.1",
+        "laravel/envoy": "^2.8",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
@@ -52,7 +57,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Mmockelyn\\Wise\\": "packages/mmockelyn/wise/src"
         },
         "files": [
             "app/helper.php"
@@ -80,7 +86,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {

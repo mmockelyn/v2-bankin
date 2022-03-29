@@ -16,6 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'version' => env("APP_VERSION"),
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +178,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
 
     ],
@@ -196,6 +198,7 @@ return [
         'Insee' => NSpehler\LaravelInsee\Facades\Insee::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'GitHub' => GrahamCampbell\GitHub\Facades\GitHub::class,
     ])->toArray(),
 
 ];
