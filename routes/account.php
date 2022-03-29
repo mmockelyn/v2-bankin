@@ -35,6 +35,10 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::get('/virtual', [\App\Http\Controllers\Account\PaymentController::class, 'virtual'])->name("account.payments.virtual.index");
     });
 
+    Route::prefix('documents')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Account\DocumentController::class, 'index'])->name('account.document.index');
+    });
+
     Route::prefix("insurance")->group(function () {
         Route::get('/')->name("account.insurance.index");
     });
