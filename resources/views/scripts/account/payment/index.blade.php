@@ -1,10 +1,12 @@
 <script type="text/javascript">
     let elements = {
         btnShowCard: document.querySelectorAll('.showCard'),
-        modalShowCard: document.querySelector('#showCard')
+        modalShowCard: document.querySelector('#showCard'),
+        modalOpposite: document.querySelector('#modalOpposition')
     }
 
     let modalShowCard = new bootstrap.Modal(elements.modalShowCard)
+    let modalOpposite = new bootstrap.Modal(elements.modalOpposite)
 
     let lockedCard = (card) => {
         $.ajax({
@@ -14,6 +16,10 @@
                 console.log(data);
             }
         })
+    }
+
+    let showModalOpposite = () => {
+        modalOpposite.show()
     }
 
     elements.btnShowCard.forEach(btn => {
@@ -36,7 +42,7 @@
                             <input class="form-check-input h-30px w-50px" type="checkbox" value="${data.card.number}" ${data.card.status === 'INACTIVE' ? 'checked="checked"' : ""} id="flexSwitch30x50" onchange="lockedCard(this)"/>
                         </div>
                     </a>
-                    <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px">
+                    <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px" onclick="showModalOpposite()">
                         <div class="px-5 fs-5 text-dark">Faire Opposition</div>
                         <i class="fas fa-chevron-right fa-2x ms-2"></i>
                     </a>

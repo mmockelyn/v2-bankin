@@ -203,6 +203,58 @@
             </div>
         </div>
     </div>
+    <div class="modal bg-white fade" tabindex="-1" id="modalOpposition">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content shadow-none">
+                <div class="modal-header">
+                    <h5 class="modal-title">Faire Opposition</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body d-flex flex-center">
+                    <div class="fs-3tx mb-20">Êtes-vous sûr de vouloir faire opposition ?</div>
+                    <div class="alert alert-dismissible bg-light-primary d-flex flex-center flex-column py-10 px-10 px-lg-20 mb-10">
+
+                        <!--begin::Icon-->
+                        <i class="fas fa-info fa-5x text-info"></i>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="text-center">
+                            <!--begin::Title-->
+                            <h1 class="fw-bolder mb-5">Le saviez-vous ?</h1>
+                            <!--end::Title-->
+
+                            <!--begin::Separator-->
+                            <div class="separator separator-dashed border-danger opacity-25 mb-5"></div>
+                            <!--end::Separator-->
+
+                            <!--begin::Content-->
+                            <div class="mb-9 text-dark">
+                                En cas de doute, vous pouvez verrouiller temporairement votre carte plutôt qu'en commander une nouvelle. Vous pourrez la déverrouiller à tout moment. Attention, verrouiller la carte ne conduit pas à faire opposition à la carte.
+                            </div>
+                            <!--end::Content-->
+
+                            <!--begin::Buttons-->
+                            <div class="d-flex flex-center flex-column">
+                                <button class="btn btn-bank btn-lg mb-2">Faire opposition en ligne</button>
+                                <button class="btn btn-outline btn-outline-bank btn-lg mb-2">Contacter un conseiller</button>
+                                <button class="btn btn-outline btn-outline-bank btn-lg" onclick="lockedCard(this)">Verrouiller ma carte</button>
+                            </div>
+                            <!--end::Buttons-->
+                        </div>
+                        <!--end::Wrapper-->
+                    </div>
+                    <!--end::Alert-->
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section("script")
