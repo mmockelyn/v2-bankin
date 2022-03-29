@@ -14,7 +14,7 @@
                 @if(config('app.env') == 'local' || config('app.env') == 'testing')
                     <span class="menu-link text-danger">Version: {{ \App\Services\Github::latestMasterVersion() }}</span>
                 @else
-                    <span class="menu-link text-success">Version: {{ \App\Services\Github::latestDeployVersion() }}</span>
+                    <span class="menu-link text-success">Version: {{ config('app.version') }}</span>
                 @endif
             </li>
         </ul>

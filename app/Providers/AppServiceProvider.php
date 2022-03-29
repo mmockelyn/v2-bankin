@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.debug') == true) {
             $this->app->register(\VIACreative\SudoSu\ServiceProvider::class);
         }
-        if ($this->app->environment('local')) {
+        if (config('app.env') == 'local') {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
