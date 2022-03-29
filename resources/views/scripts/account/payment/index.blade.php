@@ -3,12 +3,14 @@
         btnShowCard: document.querySelectorAll('.showCard'),
         modalShowCard: document.querySelector('#showCard'),
         modalOpposite: document.querySelector('#modalOpposition'),
-        modalLimitDraw: document.querySelector('#modalLimitDraw')
+        modalLimitDraw: document.querySelector('#modalLimitDraw'),
+        modalShowCode: document.querySelector('#modalShowCode')
     }
 
     let modalShowCard = new bootstrap.Modal(elements.modalShowCard)
     let modalOpposite = new bootstrap.Modal(elements.modalOpposite)
     let modalLimitDraw = new bootstrap.Modal(elements.modalLimitDraw)
+    let modalShowCode = new bootstrap.Modal(elements.modalShowCode)
 
     let lockedCard = (card) => {
         $.ajax({
@@ -52,6 +54,7 @@
                 data: {"card_id": btn.dataset.card},
                 success: data => {
                     console.log(data)
+                    elements.modalShowCode.querySelector('.modal-content').setAttribute('data-card-number', data.card.number)
                     elements.modalShowCard.querySelector('.modal-title').innerHTML = `${data.brand} ${data.support}`
                     elements.modalShowCard.querySelector('.backCard').style.backgroundImage = `url('/storage/${data.support}.png')`
                     elements.modalShowCard.querySelector('.nameCard').innerHTML = `${data.nameCard}`
@@ -71,10 +74,12 @@
                         <div class="px-5 fs-5 text-dark">Gérer mes plafonds</div>
                         <i class="fas fa-chevron-right fa-2x ms-2"></i>
                     </a>
-                    <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px">
+                    @if(ismobile())
+                    <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px" data-bs-toggle="modal" data-bs-target="#modalShowCode">
                         <div class="px-5 fs-5 text-dark">Voir mon code secret</div>
                         <i class="fas fa-chevron-right fa-2x ms-2"></i>
                     </a>
+                    @endif
                     <div class="fw-bolder fs-3 mt-5">Réglages</div>
                     <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px">
                         <div class="px-5 fs-5 text-dark">Paiement à distance</div>
@@ -93,5 +98,57 @@
                 }
             })
         })
+    })
+
+    $("#formAuthVerify").on('submit', e => {
+        e.preventDefault()
+        let form = $("#formAuthVerify")
+        let url = form.attr('action')
+        let data = form.serializeArray()
+        let btn = form.find('.btn-bank')
+
+        btn.attr('data-kt-indicator', 'on')
+
+        axios.post(url, {
+            auth_code: $("#auth_code").val()
+        })
+        .then(() => {
+            btn.removeAttr('data-kt-indicator')
+            let blockUi = new KTBlockUI(modalShowCode.querySelector(".modal-content"))
+            blockUi.block()
+
+            axios.get('/api/account/'+elements.modalShowCode.dataset.cardNumber+'/code')
+            .then(response => {
+                console.log(response)
+            })
+            .catch(response => {
+                console.error(response)
+            })
+
+        })
+        .catch(() => {
+            btn.removeAttr('data-kt-indicator')
+            $("#errorCode").html("Code Erronée")
+            let blockUi = new KTBlockUI(elements.modalShowCode.querySelector(".modal-content"))
+            blockUi.block()
+            console.log(elements.modalShowCode.querySelector(".modal-content").dataset)
+
+            axios.get('/api/account/card/'+elements.modalShowCode.querySelector(".modal-content").dataset.cardNumber+'/code')
+                .then(response => {
+                    console.log(response)
+                    elements.modalShowCode.querySelector(".modal-content")
+                    elements.modalShowCode.querySelector("#formAuthVerify").classList.add('d-none')
+                    blockUi.release()
+                    elements.modalShowCode.querySelector(".modal-content").innerHTML += `
+                    <div class="modal-body">
+                        <div class="text-center fs-3 fw-bolder">${response.data}</div>
+                    </div>
+                    `
+                })
+                .catch(response => {
+                    console.error(response)
+                })
+        })
+
     })
 </script>

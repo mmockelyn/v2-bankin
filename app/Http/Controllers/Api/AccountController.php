@@ -157,4 +157,10 @@ class AccountController extends Controller
             ]
         ]);
     }
+
+    public function getCode(Request $request, $number)
+    {
+        $card = CustomerCreditCard::where('number', $number)->first();
+        return response()->json($card->code);
+    }
 }

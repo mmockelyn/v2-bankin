@@ -296,6 +296,46 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="modalShowCode">
+        <div class="modal-dialog">
+            <div class="modal-content" data-card-number="">
+                <div class="modal-header">
+                    <h5 class="modal-title">Voir mon code secret</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <form id="formAuthVerify" action="{{ route('auth.code.verify') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="user" value="{{ request()->user()->id }}">
+                    <div class="modal-body">
+                        <x-form.input
+                            name="auth_code"
+                            type="password"
+                            maxlength="4"
+                            label="Code SECURPASS"
+                            required="true" />
+                        <div id="errorCode" class="text-danger"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-bank btnAuthVerify">
+                            <span class="indicator-label">
+                                Authentifier
+                            </span>
+                            <span class="indicator-progress">
+                                Veuillez Patienter... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section("script")
