@@ -11,6 +11,7 @@ class CustomerWallet extends Model
     use HasFactory;
     protected $guarded = [];
     public $timestamps = false;
+    protected $dates = ['date_alert_debit'];
 
     public function customer()
     {
