@@ -13,6 +13,6 @@ class TestController extends Controller
 {
     public function test()
     {
-        dd(Github::latestDeployVersion());
+        dd(\request()->user()->devices()->latest()->first());
     }
 }

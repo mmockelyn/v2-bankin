@@ -49,3 +49,14 @@ if (!function_exists('clear')) {
         system('rm -rf /storage/logs');
     }
 }
+
+if (!function_exists('ismobile')) {
+    function ismobile()
+    {
+        if(request()->user()->devices()->latest()->first()->is_mobile == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
