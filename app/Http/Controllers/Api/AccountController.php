@@ -9,7 +9,9 @@ use App\Helpers\Customer\Wallet;
 use App\Http\Controllers\Controller;
 use App\Mail\Account\CheckoutCheck;
 use App\Mail\Account\DemandeContact;
+use App\Mail\Account\UpdateStatusCheck;
 use App\Models\Core\Bank;
+use App\Models\Customer\CustomerCheck;
 use App\Models\Customer\CustomerCreditCard;
 use App\Models\Customer\CustomerWallet;
 use App\Models\User\User;
@@ -221,5 +223,51 @@ class AccountController extends Controller
             ]);
         }
 
+    }
+
+    public function updateStatusCheck(Request $request, $reference)
+    {
+        $check = CustomerCheck::where('reference', $reference)->first();
+
+        switch ($request->get('status')) {
+            case 'checkout':
+                $check->status = 'checkout';
+                $check->save();
+                break;
+
+            case 'manufacture':
+                $check->status = 'manufacture';
+                $check->save();
+                break;
+
+            case 'ship':
+                $check->status = 'ship';
+                $check->save();
+                break;
+
+            case 'outstanding':
+                $check->status = 'outstanding';
+                $check->save();
+                break;
+
+            case 'finish':
+                $check->status = 'finish';
+                $check->save();
+                break;
+
+            case 'destroy':
+                $check->status = 'destroy';
+                $check->save();
+                break;
+
+            default:
+                $check->status = 'checkout';
+                $check->save();
+                break;
+        }
+
+        \Mail::to($check->customer->user)->send(new UpdateStatusCheck($check));
+
+        return response()->json();
     }
 }
