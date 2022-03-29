@@ -33,6 +33,18 @@ License: For each use you must have a valid license purchased only from above li
         .bg-dark {
             background-color: #000 !important;
         }
+        .bg-danger {
+            background-color: #d50000 !important;
+        }
+        .bg-success {
+            background-color: #39d500 !important;
+        }
+        .text-danger {
+            color: #d50000 !important;
+        }
+        .text-success {
+            color: #39d500 !important;
+        }
         .body {
             background-color: #dfe0e0;
             border-bottom-right-radius: 5px;
