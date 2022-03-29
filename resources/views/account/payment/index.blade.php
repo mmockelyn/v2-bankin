@@ -16,7 +16,7 @@
                 <!--end::Title-->
             </div>
             <!--end::Page title-->
-            @if(request()->user()->customer->cards()->get()->count() <= request()->user()->customer->setting->nb_carte_physique)
+            @if(request()->user()->customer->cards()->where('type', 'PHYSICAL')->get()->count() <= request()->user()->customer->setting->nb_carte_physique)
             <div class="d-flex">
                 <button class="btn btn-bank" data-bs-toggle="modal" data-bs-target="#add-credit-card">Demander un nouvelle carte</button>
             </div>
@@ -34,7 +34,7 @@
             @foreach(request()->user()->customer->wallets as $wallet)
 
                     <div class="d-flex flex-row justify-content-around flex-center">
-                        @foreach($wallet->cards as $card)
+                        @foreach($wallet->cards()->where('type', 'PHYSICAL')->get() as $card)
                         <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover me-5 showCard" data-card="{{ $card->id }}" style="background-image:url('/storage/{{ $card->support }}.png')">
                             <!--begin::Body-->
                             <div class="card-body p-6 ribbon ribbon-end">
@@ -57,7 +57,7 @@
 
     <div class="card shadow-lg">
         <div class="card-body">
-            <a href="" class="d-flex rounded-2 flex-row justify-content-between align-content-center text-black bg-gray-200 p-5 mb-5 bg-hover-primary text-hover-white">
+            <a href="{{ route('account.payments.virtual.index') }}" class="d-flex rounded-2 flex-row justify-content-between align-content-center text-black bg-gray-200 p-5 mb-5 bg-hover-primary text-hover-white">
                 <div class="d-flex flex-column">
                     <span class="fs-4">Carte Virtuel</span>
                     <span class="fs-8">Payer en ligne avec des numéro de carte virtuel</span>
