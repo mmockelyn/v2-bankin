@@ -289,6 +289,9 @@
                             <div class="progress-bar progressWithdraw" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                         </div>
                     </div>
+                    @if(ismobile() == true)
+                    <button class="btn btn-bank" data-bs-toggle="modal" data-bs-target="#editPlafond">Augmenter temporairement</button>
+                    @endif
                 </div>
             </div>
         </div>

@@ -63,7 +63,7 @@ License: For each use you must have a valid license purchased only from above li
                 <td class="p-5 w-50">Catégorie de la carte selon le règlement (UE) 2015/751 du 29/05/2015:<br>{{ \App\Helpers\Customer\CreditCard::isDiffered($card->debit) == false ? 'Crédit' : 'Débit' }}</td>
             </tr>
             <tr class="border-bottom border-gray-800 h-50px">
-                <td class="p-5 w-50">Carte doté de la fonction sans contact: {{ \App\Helpers\Customer\CreditCard::getDebit($card->debit) }}</td>
+                <td class="p-5 w-50">Carte doté de la fonction sans contact: {{ \App\Helpers\Customer\CreditCard::getContact($card->contact) }}</td>
             </tr>
         </tbody>
     </table>
