@@ -41,4 +41,9 @@ class CustomerWallet extends Model
     {
         return $this->hasMany(CustomerLoan::class);
     }
+
+    public function checks()
+    {
+        return $this->hasMany(CustomerCheck::class);
+    }
 }

@@ -4,6 +4,8 @@
 namespace App\Helpers\Customer;
 
 
+use App\Jobs\Account\WelcomeContractJob;
+use App\Mail\Account\FirstPaymentReceived;
 use App\Notifications\Customer\Payment\CodeCreditCard;
 use App\Notifications\Customer\Payment\NewCreditCard;
 use Plansky\CreditCard\Generator;
@@ -36,6 +38,9 @@ class CreditCard
 
         $wallet->customer->user->notify(new NewCreditCard($wallet->customer->user, $card));
         $wallet->customer->user->notify(new CodeCreditCard($card, $code));
+        $document = self::generateContract($wallet->customer, $card);
+        \Mail::to($wallet->customer->user)->send(new FirstPaymentReceived($wallet->customer));
+        WelcomeContractJob::dispatch($wallet->customer, $document)->delay(now()->addMinutes(5));
     }
 
     public static function getCreditCard($number, $obscure = true)
@@ -146,5 +151,6 @@ class CreditCard
         $pdf->setOption('margin-right', 0);
         $pdf->save(public_path('/storage/gdd/' . $customer->id . '/contract/' . \Str::slug($name) . '.pdf'), true);
 
+        return $document;
     }
 }

@@ -15,7 +15,8 @@
         "creativeorange/gravatar": "^1.0",
         "escuelademusica/laravel-mjml": "^0.1.2",
         "fruitcake/laravel-cors": "^2.0.5",
-        "guzzlehttp/guzzle": "^7.2",
+        "graham-campbell/github": "^10.5",
+        "guzzlehttp/guzzle": "^7.4",
         "h4cc/wkhtmltopdf-i386": "^0.12.4",
         "intervention/validation": "3.1.0",
         "lab404/laravel-auth-checker": "^1.6",
@@ -25,7 +26,9 @@
         "laravel/framework": "^9.0",
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.14",
+        "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.7",
+        "laravel/vonage-notification-channel": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
         "mmockelyn/laravel-insee": "dev-master",
         "mmockelyn/laravel-messenger": "^9.0",
@@ -38,8 +41,7 @@
         "spatie/browsershot": "^3.52",
         "spatie/laravel-slack-alerts": "^1.0",
         "stripe/stripe-php": "^7.117",
-        "viacreative/sudo-su": "^1.1",
-        "graham-campbell/github": "^10.5"
+        "viacreative/sudo-su": "^1.1"
     },
     "require-dev": {
         "deployer/deployer": "*",
@@ -84,7 +86,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {

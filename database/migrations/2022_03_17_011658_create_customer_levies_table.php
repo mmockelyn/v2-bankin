@@ -27,6 +27,12 @@ return new class extends Migration
                             ->cascadeOnUpdate()
                             ->cascadeOnDelete();
 
+            $table->foreignId('customer_id')
+                            ->constrained()
+                            ->cascadeOnUpdate()
+                            ->cascadeOnDelete();
+
+
         });
     }
 

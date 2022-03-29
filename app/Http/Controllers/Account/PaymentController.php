@@ -33,4 +33,9 @@ class PaymentController extends Controller
             }
         }
     }
+
+    public function virtual(Request $request)
+    {
+        return view('account.payment.virtual.index');
+    }
 }
