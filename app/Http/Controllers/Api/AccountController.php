@@ -163,4 +163,32 @@ class AccountController extends Controller
         $card = CustomerCreditCard::where('number', $number)->first();
         return response()->json($card->code);
     }
+
+    public function externalPayment($number)
+    {
+        $card = CustomerCreditCard::where('number', $number)->first();
+        if($card->external_payment == 1) {
+            $card->external_payment = 0;
+            $card->save();
+        } else {
+            $card->external_payment = 1;
+            $card->save();
+        }
+
+        return response()->json($card->external_payment);
+    }
+
+    public function abroadPayment($number)
+    {
+        $card = CustomerCreditCard::where('number', $number)->first();
+        if($card->abroad_payment == 1) {
+            $card->abroad_payment = 0;
+            $card->save();
+        } else {
+            $card->abroad_payment = 1;
+            $card->save();
+        }
+
+        return response()->json($card->abroad_payment);
+    }
 }

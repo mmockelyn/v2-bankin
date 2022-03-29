@@ -23,6 +23,8 @@ Route::prefix("account")->group(function () {
     Route::post('card/{number}/lock', [\App\Http\Controllers\Api\AccountController::class, 'lockCard']);
     Route::get('card/{number}/plafond', [\App\Http\Controllers\Api\AccountController::class, 'getPlafond']);
     Route::get('card/{number}/code', [\App\Http\Controllers\Api\AccountController::class, 'getCode']);
+    Route::get('card/{number}/externalPayment', [\App\Http\Controllers\Api\AccountController::class, 'externalPayment']);
+    Route::get('card/{number}/abroadPayment', [\App\Http\Controllers\Api\AccountController::class, 'abroadPayment']);
 });
 
 Route::prefix('transaction')->group(function () {

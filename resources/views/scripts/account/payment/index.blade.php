@@ -22,6 +22,20 @@
         })
     }
 
+    let activeExternalPayment = (number) => {
+        $.get('/api/account/card/'+number+'/externalPayment')
+        .then(data => {
+            console.log(data)
+        })
+    }
+
+    let activeAbroadPayment = (number) => {
+        $.get('/api/account/card/'+number+'/abroadPayment')
+            .then(data => {
+                console.log(data)
+            })
+    }
+
     let showModalOpposite = () => {
         modalOpposite.show()
     }
@@ -84,13 +98,13 @@
                     <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px">
                         <div class="px-5 fs-5 text-dark">Paiement à distance</div>
                         <div class="form-check form-switch form-check-custom form-check-solid me-10">
-                            <input class="form-check-input h-30px w-50px" type="checkbox" value="" ${data.card.external_payment === 1 ? 'checked="checked"' : ""} id="flexSwitch30x50"/>
+                            <input class="form-check-input h-30px w-50px" type="checkbox" value="" ${data.card.external_payment === 1 ? 'checked="checked"' : ""} id="flexSwitch30x50" onchange="activeExternalPayment(${data.card.number})"/>
                         </div>
                     </a>
                     <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px">
                         <div class="px-5 fs-5 text-dark">Paiement & retrait à l'étranger</div>
                         <div class="form-check form-switch form-check-custom form-check-solid me-10">
-                            <input class="form-check-input h-30px w-50px" type="checkbox" value="" ${data.card.abroad_payment === 1 ? 'checked="checked"' : ""} id="flexSwitch30x50"/>
+                            <input class="form-check-input h-30px w-50px" type="checkbox" value="" ${data.card.abroad_payment === 1 ? 'checked="checked"' : ""} id="flexSwitch30x50" onchange="activeAbroadPayment(${data.card.number})"/>
                         </div>
                     </a>
                     `
