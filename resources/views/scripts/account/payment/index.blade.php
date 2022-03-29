@@ -1,4 +1,5 @@
 <script type="text/javascript">
+    "use strict";
     let elements = {
         btnShowCard: document.querySelectorAll('.showCard'),
         modalShowCard: document.querySelector('#showCard'),
@@ -63,6 +64,248 @@
         })
         modalLimitDraw.show()
     }
+
+    let LevyList = () => {
+        let datatable;
+        let filterAccount;
+        let filterCreditor;
+        let filterStatus;
+        let table = document.querySelector('#kt_customers_table');
+
+
+        let initLevyList = () => {
+            const tableRows = table.querySelectorAll('tbody tr')
+
+            tableRows.forEach(row => {
+                const dateRow = row.querySelectorAll('td');
+                const realDate = moment(dateRow[2].innerHTML, "D/M/Y").format(); // select date from 5th column in table
+                dateRow[2].setAttribute('data-order', realDate);
+            })
+
+            datatable = $(table).DataTable({
+                "info": false,
+                'order': [],
+                'columnDefs': [
+                    { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
+                ]
+            });
+
+            // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
+            datatable.on('draw', function () {
+                initToggleToolbar();
+                // Fonction création opposition
+                handleOppositeRows()
+                toggleToolbars();
+            });
+        }
+
+        let handleSearchDatatable = () => {
+            const filterSearch = document.querySelector('[data-kt-customer-table-filter="search"]');
+            filterSearch.addEventListener('keyup', function (e) {
+                datatable.search(e.target.value).draw();
+            });
+        }
+
+        let handleOppositeRows = () => {
+            const oppositeButton = table.querySelectorAll('[data-kt-customer-table-filter="create_opposite"]');
+
+            oppositeButton.forEach(b => {
+                b.addEventListener('click', e => {
+                    e.preventDefault()
+
+                    const parent = e.target.closest('tr')
+                    const creditorName = parent.querySelectorAll('td')[3].innerText
+
+                    Swal.fire({
+                        text: `Êtes-vous sur de vouloir créer une opposition pour ${creditorName} ?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        confirmButtonText: "Oui, créer une opposition à ce prélèvement",
+                        cancelButtonText: "Non",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-bank",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
+                        }
+                    }).then(result => {
+                        if(result.isConfirmed === true) {
+                            $.ajax({
+                                url: '/api/account/levy/'+e.target.dataset.row,
+                                method: "DELETE",
+                                success: () => {
+                                    Swal.fire({
+                                        text: "Une opposition à été effectuer sur "+creditorName,
+                                        icon: 'success',
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Ok !",
+                                        customClass: {
+                                            confirmButton: "btn fw-bold btn-bank",
+                                        }
+                                    }).then(() => {
+                                        window.location.refresh()
+                                    })
+                                }
+                            })
+                        }
+                    })
+                })
+            })
+        }
+
+        let handleFilterDatatable = () => {
+            filterAccount = $('[data-kt-customer-table-filter="account"]')
+            filterCreditor = $('[data-kt-customer-table-filter="creditor"]')
+            filterStatus = $('[data-kt-customer-table-filter="status"]')
+
+            const filterButton = document.querySelector('[data-kt-customer-table-filter="filter"]');
+
+            filterButton.addEventListener('click', function () {
+                // Get filter values
+                const accountValue = filterAccount.val();
+                const creditorValue = filterCreditor.val();
+                const statusValue = filterStatus.val();
+
+                // Build filter string from filter options
+                const filterString = accountValue + ' ' + creditorValue + ' '+ statusValue;
+
+                // Filter datatable --- official docs reference: https://datatables.net/reference/api/search()
+                datatable.search(filterString).draw();
+            });
+        }
+
+        // Reset Filter
+        let handleResetForm = () => {
+            // Select reset button
+            const resetButton = document.querySelector('[data-kt-customer-table-filter="reset"]');
+
+            // Reset datatable
+            resetButton.addEventListener('click', function () {
+                // Reset month
+                filterAccount.val(null).trigger('change');
+                filterCreditor.val(null).trigger('change');
+                filterStatus.val(null).trigger('change');
+
+                // Reset datatable --- official docs reference: https://datatables.net/reference/api/search()
+                datatable.search('').draw();
+            });
+        }
+
+        // Init toggle toolbar
+        let initToggleToolbar = () => {
+            // Toggle selected action toolbar
+            // Select all checkboxes
+            const checkboxes = table.querySelectorAll('[type="checkbox"]');
+
+            // Select elements
+            const oppositeSelected = document.querySelector('[data-kt-customer-table-select="opposite_selected"]');
+
+            // Toggle delete selected toolbar
+            checkboxes.forEach(c => {
+                // Checkbox on click event
+                c.addEventListener('click', function () {
+                    setTimeout(function () {
+                        toggleToolbars();
+                    }, 50);
+                });
+            });
+
+            // Deleted selected rows
+            oppositeSelected.addEventListener('click', function () {
+                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+                Swal.fire({
+                    text: "Êtes-vous sur de vouloir effectuer une opposition du ses prélèvement ?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Oui, créer une opposition",
+                    cancelButtonText: "Non",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-bank",
+                        cancelButton: "btn fw-bold btn-active-light-primary"
+                    }
+                }).then(function (result) {
+                    if(result.isConfirmed === true) {
+                        checkboxes.forEach(c => {
+                            if (c.checked) {
+                                $.ajax({
+                                    url: '/api/account/levy/'+c.value,
+                                    method: "DELETE",
+                                    success: () => {
+                                        Swal.fire({
+                                            text: "Une opposition à été effectuer sur les Créanciers séléctionner",
+                                            icon: 'success',
+                                            buttonsStyling: false,
+                                            confirmButtonText: "Ok !",
+                                            customClass: {
+                                                confirmButton: "btn fw-bold btn-bank",
+                                            }
+                                        }).then(() => {
+                                            window.location.refresh()
+                                        })
+                                    }
+                                })
+                                //datatable.row($(c.closest('tbody tr'))).remove().draw();
+                            }
+                        });
+
+                        const headerCheckbox = table.querySelectorAll('[type="checkbox"]')[0];
+                        headerCheckbox.checked = false;
+                    }
+                });
+            });
+        }
+
+        // Toggle toolbars
+        const toggleToolbars = () => {
+            // Define variables
+            const toolbarBase = document.querySelector('[data-kt-customer-table-toolbar="base"]');
+            const toolbarSelected = document.querySelector('[data-kt-customer-table-toolbar="selected"]');
+            const selectedCount = document.querySelector('[data-kt-customer-table-select="selected_count"]');
+
+            // Select refreshed checkbox DOM elements
+            const allCheckboxes = table.querySelectorAll('tbody [type="checkbox"]');
+
+            // Detect checkboxes state & count
+            let checkedState = false;
+            let count = 0;
+
+            // Count checked boxes
+            allCheckboxes.forEach(c => {
+                if (c.checked) {
+                    checkedState = true;
+                    count++;
+                }
+            });
+
+            // Toggle toolbars
+            if (checkedState) {
+                selectedCount.innerHTML = count;
+                toolbarBase.classList.add('d-none');
+                toolbarSelected.classList.remove('d-none');
+            } else {
+                toolbarBase.classList.remove('d-none');
+                toolbarSelected.classList.add('d-none');
+            }
+        }
+        // Public methods
+        return {
+            init: function () {
+                table = document.querySelector('#kt_customers_table');
+
+                if (!table) {
+                    return;
+                }
+
+                initLevyList();
+                initToggleToolbar();
+                handleSearchDatatable();
+                handleFilterDatatable();
+                handleOppositeRows();
+                handleResetForm();
+            }
+        }
+    };
+
 
     elements.btnShowCard.forEach(btn => {
         btn.addEventListener('click', e => {
@@ -203,4 +446,8 @@
                 toastr.error("Une erreur à eu lieu lors de la commande de votre chéquier", "Commande de chéquier")
             })
     })
+
+    KTUtil.onDOMContentLoaded(function () {
+        LevyList().init();
+    });
 </script>

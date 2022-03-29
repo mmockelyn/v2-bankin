@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Customer\Levy;
 use App\Models\Core\Agency;
 use App\Models\Core\DocumentCategory;
 use App\Models\Customer\Customer;
@@ -10,11 +11,13 @@ use App\Models\Customer\CustomerBeneficiaireBank;
 use App\Models\Customer\CustomerCompany;
 use App\Models\Customer\CustomerCreditCard;
 use App\Models\Customer\CustomerIndividual;
+use App\Models\Customer\CustomerLevy;
 use App\Models\Customer\CustomerSetting;
 use App\Models\Customer\CustomerSituation;
 use App\Models\Customer\CustomerTransaction;
 use App\Models\Customer\CustomerWallet;
 use App\Models\User\User;
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -36,7 +39,7 @@ class TestingSeeder extends Seeder
         $this->call(DocumentCategorySeeder::class);
         \Artisan::call("bridge:import");
 
-        $users = User::factory(rand(5, 15))->create();
+        $users = User::factory(rand(5, 50))->create();
         $agence = Agency::factory()->create();
 
         foreach ($users as $user) {
@@ -56,6 +59,11 @@ class TestingSeeder extends Seeder
                 $wallet = CustomerWallet::factory()->create([
                     "customer_id" => $customer->id,
                     "agency_id" => $agence->id,
+                ]);
+
+                CustomerLevy::factory(rand(1,20))->create([
+                    "customer_wallet_id" => $wallet->id,
+                    "customer_id" => $customer->id
                 ]);
 
                 CustomerCreditCard::factory(rand(1,5))->create([

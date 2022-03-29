@@ -13,6 +13,7 @@ use App\Mail\Account\UpdateStatusCheck;
 use App\Models\Core\Bank;
 use App\Models\Customer\CustomerCheck;
 use App\Models\Customer\CustomerCreditCard;
+use App\Models\Customer\CustomerLevy;
 use App\Models\Customer\CustomerWallet;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -267,6 +268,15 @@ class AccountController extends Controller
         }
 
         \Mail::to($check->customer->user)->send(new UpdateStatusCheck($check));
+
+        return response()->json();
+    }
+
+    public function deleteLevy($uuid)
+    {
+        $levy = CustomerLevy::where('uuid', $uuid)->first();
+        $levy->status = 'rejected';
+        $levy->save();
 
         return response()->json();
     }

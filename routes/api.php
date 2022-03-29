@@ -28,6 +28,9 @@ Route::prefix("account")->group(function () {
 
     Route::post('check', [\App\Http\Controllers\Api\AccountController::class, 'storeCheck']);
     Route::put('check/{reference}/status', [\App\Http\Controllers\Api\AccountController::class, 'updateStatusCheck']);
+
+    Route::delete('levy/{uuid}', [\App\Http\Controllers\Api\AccountController::class, 'deleteLevy']);
+    Route::delete('levy', [\App\Http\Controllers\Api\AccountController::class, 'deleteLevies']);
 });
 
 Route::prefix('transaction')->group(function () {
