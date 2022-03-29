@@ -9,6 +9,7 @@ class CustomerIndividual extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $dates = ["created_at", "updated_at", "datebirth"];
 
 
     public function customer()

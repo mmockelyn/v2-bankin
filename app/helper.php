@@ -49,3 +49,27 @@ if (!function_exists('clear')) {
         system('rm -rf /storage/logs');
     }
 }
+
+if (!function_exists('randomString')) {
+    function randomString($length = 10)
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+}
+
+if (!function_exists('ismobile')) {
+    function ismobile()
+    {
+        if(request()->user()->devices()->latest()->first()->is_mobile == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

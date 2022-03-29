@@ -74,7 +74,6 @@ class Customer
         return $customer;
     }
 
-
     public static function verified_account()
     {
         $customers = \App\Models\Customer\Customer::with('individual', 'business', 'user')->get();
@@ -155,6 +154,15 @@ class Customer
         }
     }
 
+    public static function getFirstname($customer)
+    {
+        if($customer->type_account == 'BUSINESS') {
+            return $customer->business->company;
+        } else {
+            return $customer->individual->firstname;
+        }
+    }
+
     public static function getAdress($customer)
     {
         if($customer->type_account == 'BUSINESS') {
@@ -177,7 +185,7 @@ class Customer
         $file = new DocumentFile();
         $name = "Souscription Convention relation particulier - CUS".$customer->user->identifiant." - ".now()->format('Ymd');
 
-        $document = $file->createDocument($name, $customer, 3, true, true, true, now());
+        $document = $file->createDocument($name, $customer, 3, true, true, true, true, now());
 
         $pdf = PDF::loadView('agence.pdf.account.conv_part', compact('agence', 'customer', 'document', 'name'));
         $pdf->setOption('enable-local-file-access', true);

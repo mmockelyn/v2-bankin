@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customer_levies', function (Blueprint $table) {
+        Schema::create('customer_checks', function (Blueprint $table) {
             $table->id();
-            $table->string('creditor');
-            $table->uuid()->unique();
-            $table->string('mandat');
-            $table->decimal('amount', 64, 0);
-            $table->enum('status', ['waiting', 'processed', 'rejected', 'return', 'refunded']);
+            $table->string('reference');
+            $table->integer('tranche_start');
+            $table->integer('tranche_end');
+            $table->enum("status", ["checkout", "manufacture", "ship", "outstanding", "finish", "destroy"])->default('checkout');
             $table->timestamps();
 
             $table->foreignId('customer_wallet_id')
@@ -32,7 +31,6 @@ return new class extends Migration
                             ->cascadeOnUpdate()
                             ->cascadeOnDelete();
 
-
         });
     }
 
@@ -43,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_levies');
+        Schema::dropIfExists('customer_checks');
     }
 };
