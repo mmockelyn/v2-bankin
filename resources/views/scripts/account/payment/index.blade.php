@@ -4,17 +4,22 @@
         modalShowCard: document.querySelector('#showCard'),
         modalOpposite: document.querySelector('#modalOpposition'),
         modalLimitDraw: document.querySelector('#modalLimitDraw'),
-        modalShowCode: document.querySelector('#modalShowCode')
+        modalShowCode: document.querySelector('#modalShowCode'),
+        modalShowCheck: document.querySelector('#modalShowCheck'),
+        modalAddCheck: document.querySelector('#modalAddCheck'),
+        tableListCheck: document.querySelector('#tableListCheck'),
     }
 
     let modalShowCard = new bootstrap.Modal(elements.modalShowCard)
     let modalOpposite = new bootstrap.Modal(elements.modalOpposite)
     let modalLimitDraw = new bootstrap.Modal(elements.modalLimitDraw)
     let modalShowCode = new bootstrap.Modal(elements.modalShowCode)
+    let modalShowCheck = new bootstrap.Modal(elements.modalShowCheck)
+    let modalAddCheck = new bootstrap.Modal(elements.modalAddCheck)
 
     let lockedCard = (card) => {
         $.ajax({
-            url: '/api/account/card/'+card.value+'/lock',
+            url: '/api/account/card/' + card.value + '/lock',
             method: 'POST',
             success: data => {
                 console.log(data);
@@ -23,14 +28,14 @@
     }
 
     let activeExternalPayment = (number) => {
-        $.get('/api/account/card/'+number+'/externalPayment')
-        .then(data => {
-            console.log(data)
-        })
+        $.get('/api/account/card/' + number + '/externalPayment')
+            .then(data => {
+                console.log(data)
+            })
     }
 
     let activeAbroadPayment = (number) => {
-        $.get('/api/account/card/'+number+'/abroadPayment')
+        $.get('/api/account/card/' + number + '/abroadPayment')
             .then(data => {
                 console.log(data)
             })
@@ -46,12 +51,12 @@
             success: data => {
                 console.log(data)
                 elements.modalLimitDraw.querySelector('#paymentLimit').innerHTML = data.payment.limit
-                elements.modalLimitDraw.querySelector('.text-bank-payment').setAttribute('title', "Votre disponible est estimé en déduisant de vos "+data.payment.limit+" de plafond tous les achats que vous avez effectués les 15 derniers jours.")
+                elements.modalLimitDraw.querySelector('.text-bank-payment').setAttribute('title', "Votre disponible est estimé en déduisant de vos " + data.payment.limit + " de plafond tous les achats que vous avez effectués les 15 derniers jours.")
                 elements.modalLimitDraw.querySelector('.progressPayment').innerHTML = `Il reste ${data.payment.dispo} disponible`
                 elements.modalLimitDraw.querySelector('.progressPayment').style.width = data.payment.percent_usage
 
                 elements.modalLimitDraw.querySelector('#withdrawLimit').innerHTML = data.withdraw.limit
-                elements.modalLimitDraw.querySelector('.text-bank-payment').setAttribute('title', "Votre disponible est estimé en déduisant de vos "+data.withdraw.limit+" de plafond tous les retraits que vous avez effectués les 15 derniers jours.")
+                elements.modalLimitDraw.querySelector('.text-bank-payment').setAttribute('title', "Votre disponible est estimé en déduisant de vos " + data.withdraw.limit + " de plafond tous les retraits que vous avez effectués les 15 derniers jours.")
                 elements.modalLimitDraw.querySelector('.progressWithdraw').innerHTML = `Il reste ${data.withdraw.dispo} disponible`
                 elements.modalLimitDraw.querySelector('.progressWithdraw').style.width = data.withdraw.percent_usage
             }
@@ -126,43 +131,76 @@
         axios.post(url, {
             auth_code: $("#auth_code").val()
         })
-        .then(() => {
-            btn.removeAttr('data-kt-indicator')
-            let blockUi = new KTBlockUI(modalShowCode.querySelector(".modal-content"))
-            blockUi.block()
+            .then(() => {
+                btn.removeAttr('data-kt-indicator')
+                let blockUi = new KTBlockUI(modalShowCode.querySelector(".modal-content"))
+                blockUi.block()
 
-            axios.get('/api/account/'+elements.modalShowCode.dataset.cardNumber+'/code')
-            .then(response => {
-                console.log(response)
+                axios.get('/api/account/' + elements.modalShowCode.dataset.cardNumber + '/code')
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(response => {
+                        console.error(response)
+                    })
+
             })
-            .catch(response => {
-                console.error(response)
-            })
+            .catch(() => {
+                btn.removeAttr('data-kt-indicator')
+                $("#errorCode").html("Code Erronée")
+                let blockUi = new KTBlockUI(elements.modalShowCode.querySelector(".modal-content"))
+                blockUi.block()
+                console.log(elements.modalShowCode.querySelector(".modal-content").dataset)
 
-        })
-        .catch(() => {
-            btn.removeAttr('data-kt-indicator')
-            $("#errorCode").html("Code Erronée")
-            let blockUi = new KTBlockUI(elements.modalShowCode.querySelector(".modal-content"))
-            blockUi.block()
-            console.log(elements.modalShowCode.querySelector(".modal-content").dataset)
-
-            axios.get('/api/account/card/'+elements.modalShowCode.querySelector(".modal-content").dataset.cardNumber+'/code')
-                .then(response => {
-                    console.log(response)
-                    elements.modalShowCode.querySelector(".modal-content")
-                    elements.modalShowCode.querySelector("#formAuthVerify").classList.add('d-none')
-                    blockUi.release()
-                    elements.modalShowCode.querySelector(".modal-content").innerHTML += `
+                axios.get('/api/account/card/' + elements.modalShowCode.querySelector(".modal-content").dataset.cardNumber + '/code')
+                    .then(response => {
+                        console.log(response)
+                        elements.modalShowCode.querySelector(".modal-content")
+                        elements.modalShowCode.querySelector("#formAuthVerify").classList.add('d-none')
+                        blockUi.release()
+                        elements.modalShowCode.querySelector(".modal-content").innerHTML += `
                     <div class="modal-body">
                         <div class="text-center fs-3 fw-bolder">${response.data}</div>
                     </div>
                     `
-                })
-                .catch(response => {
-                    console.error(response)
-                })
-        })
+                    })
+                    .catch(response => {
+                        console.error(response)
+                    })
+            })
 
+    })
+
+    $("#formAddCheck").on('submit', e => {
+        e.preventDefault()
+        let form = $("#formAddCheck")
+        let url = '/api/account/check';
+        let data = form.serializeArray()
+        let btn = form.find('.btn-bank')
+
+        btn.attr('data-kt-indicator', 'on')
+
+        $.post(url, data)
+            .then(response => {
+                btn.removeAttr('data-kt-indicator')
+                if (response.status === 200) {
+                    elements.tableListCheck.innerHTML += `
+                        <tr>
+                            <td>Chéquier N°${response.reference}</td>
+                            <td>${response.statement}</td>
+                        </tr>
+                        `
+                    modalAddCheck.hide();
+                    form[0].reset()
+                    toastr.success("Votre chéquier à été commander", "Commande de chéquier")
+                    modalShowCheck.show()
+                } else {
+                    toastr.warning(response.error, "Commande de chéquier")
+                }
+            })
+            .catch(err => {
+                btn.removeAttr('data-kt-indicator')
+                toastr.error("Une erreur à eu lieu lors de la commande de votre chéquier", "Commande de chéquier")
+            })
     })
 </script>

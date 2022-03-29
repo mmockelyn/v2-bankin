@@ -25,6 +25,8 @@ Route::prefix("account")->group(function () {
     Route::get('card/{number}/code', [\App\Http\Controllers\Api\AccountController::class, 'getCode']);
     Route::get('card/{number}/externalPayment', [\App\Http\Controllers\Api\AccountController::class, 'externalPayment']);
     Route::get('card/{number}/abroadPayment', [\App\Http\Controllers\Api\AccountController::class, 'abroadPayment']);
+
+    Route::post('check', [\App\Http\Controllers\Api\AccountController::class, 'storeCheck']);
 });
 
 Route::prefix('transaction')->group(function () {

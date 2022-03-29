@@ -7,6 +7,7 @@ use App\Helpers\Customer\CreditCard;
 use App\Helpers\Customer\Customer;
 use App\Helpers\Customer\Wallet;
 use App\Http\Controllers\Controller;
+use App\Mail\Account\CheckoutCheck;
 use App\Mail\Account\DemandeContact;
 use App\Models\Core\Bank;
 use App\Models\Customer\CustomerCreditCard;
@@ -190,5 +191,35 @@ class AccountController extends Controller
         }
 
         return response()->json($card->abroad_payment);
+    }
+
+    public function storeCheck(Request $request)
+    {
+        $wallet = CustomerWallet::where('uuid', $request->get('uuid'))->first();
+        if($wallet->checks()->count() >= 2) {
+            return response()->json([
+                "status" => 500,
+                "error" => "Votre quota de Chéquier à été atteint"
+            ]);
+        } else {
+            $reference = rand(1000000,9999999);
+            $check = $wallet->checks()->create([
+                "reference" => $reference,
+                "tranche_start" => $reference,
+                "tranche_end" => $reference + 40,
+                "customer_wallet_id" => $wallet->id,
+                "customer_id" => $wallet->customer->id,
+                "status" => "checkout"
+            ]);
+
+            \Mail::to($check->customer->user)->send(new CheckoutCheck($check->customer, $check));
+
+            return response()->json([
+                'reference' => $check->reference,
+                'statement' => $check->getStatus($check->status),
+                'status' => 200
+            ]);
+        }
+
     }
 }

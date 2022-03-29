@@ -67,4 +67,9 @@ class Customer extends Model
     {
         return $this->hasMany(CustomerDocument::class);
     }
+
+    public function checks()
+    {
+        return $this->hasMany(CustomerCheck::class);
+    }
 }

@@ -54,7 +54,7 @@
             @endforeach
         </div>
     </div>
-    
+
     <div class="modal bg-white fade" tabindex="-1" id="add-credit-card">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content shadow-none">

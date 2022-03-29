@@ -65,7 +65,7 @@
                 <i class="fas fa-chevron-right fs-1 align-content-center"></i>
             </a>
             @if(request()->user()->customer->setting->cheque == 1)
-            <a href="" class="d-flex rounded-2 flex-row justify-content-between align-content-center text-black bg-gray-200 p-5 mb-5 bg-hover-primary text-hover-white">
+            <a data-bs-toggle="modal" href="#modalShowCheck" class="d-flex rounded-2 flex-row justify-content-between align-content-center text-black bg-gray-200 p-5 mb-5 bg-hover-primary text-hover-white">
                 <div class="d-flex flex-column">
                     <span class="fs-4">Chèque</span>
                     <span class="fs-8">Commande et suivi</span>
@@ -331,6 +331,80 @@
                                 Veuillez Patienter... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal bg-white fade" tabindex="-1" id="modalShowCheck">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content shadow-none">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chèque</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center mb-5">
+                        <h3 class="">Liste des chèquiers</h3>
+                        <button data-bs-toggle="modal" data-bs-target="#modalAddCheck" class="btn btn-bank">Nouveau chéquier</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-rounded table-striped border gy-7 gs-7">
+                            <thead>
+                                <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+                                    <th>Numéro de chéquier</th>
+                                    <th>Etat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableListCheck">
+                                @foreach(request()->user()->customer->checks as $check)
+                                <tr>
+                                    <td>Chéquier N°{{ $check->reference }}</td>
+                                    <td>{!! $check->getStatus($check->status) !!}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="modalAddCheck">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-bank">
+                    <h5 class="modal-title text-white">Commande d'un nouveau chéquier</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <form id="formAddCheck" action="" method="post">
+                    <div class="modal-body">
+                        <div class="mb-10">
+                            <label for="" class="form-label required">Compte</label>
+                            <select class="form-control form-select-solid" data-dropdown-parent="#modalAddCheck" data-control="select2" name="uuid" data-placeholder="Selectionner un compte affilier au chéquier">
+                                <option value=""></option>
+                                @foreach(request()->user()->customer->wallets()->where('type', 'account')->get() as $wallet)
+                                    <option value="{{ $wallet->uuid }}">{{ \App\Helpers\Customer\Wallet::formatNameAccountForSelect($wallet) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <x-form.button text="Commander un chéquier" />
                     </div>
                 </form>
             </div>
