@@ -26,6 +26,7 @@
         "laravel/framework": "^9.0",
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.14",
+        "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.7",
         "laravel/vonage-notification-channel": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -85,7 +86,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
