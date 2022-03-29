@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\BicSwiftCode;
+use App\Helpers\Customer\CreditCard;
+use App\Helpers\Customer\Customer;
 use App\Helpers\Customer\Wallet;
 use App\Http\Controllers\Controller;
 use App\Mail\Account\DemandeContact;
 use App\Models\Core\Bank;
+use App\Models\Customer\CustomerCreditCard;
 use App\Models\Customer\CustomerWallet;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -95,5 +98,37 @@ class AccountController extends Controller
                 "error" => $reason
             ]);
         }
+    }
+
+    public function getCard(Request $request)
+    {
+        $card = CustomerCreditCard::find($request->get('card_id'));
+
+        $arr = [
+            "type" => CreditCard::getType($card->type),
+            "brand" => \Str::ucfirst(\Str::lower($card->brand)),
+            "support" => \Str::ucfirst(\Str::lower($card->support)),
+            "nameCard" => Customer::getName($card->customer),
+            "debit" => CreditCard::getDebit($card->debit),
+            "card" => $card,
+            "numCard" => CreditCard::getCreditCard($card->number, true),
+        ];
+
+        return response()->json($arr);
+    }
+
+    public function lockCard(Request $request, $number)
+    {
+        $card = CustomerCreditCard::where('number', $number)->first();
+
+        if($card->status == 'ACTIVE') {
+            $card->status = 'INACTIVE';
+            $card->save();
+        } else {
+            $card->status = 'ACTIVE';
+            $card->save();
+        }
+
+        return $card->status;
     }
 }

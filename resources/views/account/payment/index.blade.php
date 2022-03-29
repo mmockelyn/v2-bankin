@@ -35,7 +35,7 @@
 
                     <div class="d-flex flex-row justify-content-around flex-center">
                         @foreach($wallet->cards as $card)
-                        <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover me-5" style="background-image:url('/storage/{{ $card->support }}.png')">
+                        <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover me-5 showCard" data-card="{{ $card->id }}" style="background-image:url('/storage/{{ $card->support }}.png')">
                             <!--begin::Body-->
                             <div class="card-body p-6 ribbon ribbon-end">
                                 {!! \App\Helpers\Customer\CreditCard::getStatusCard($card->status, true) !!}
@@ -164,7 +164,47 @@
             </div>
         </div>
     </div>
+    <div class="modal bg-white fade" tabindex="-1" id="showCard">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content shadow-none">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 d-flex flex-column">
+                            <div class="card h-250px w-auto bgi-no-repeat bgi-size-cover me-5 backCard">
+                                <!--begin::Body-->
+                                <div class="card-body p-6 ribbon ribbon-end">
+                                {!! \App\Helpers\Customer\CreditCard::getStatusCard($card->status, true) !!}
+                                <!--begin::Title-->
+                                    <span class="position-absolute top-25 start-75 text-white fw-bolder fs-7">{{ $card->support }}</span>
+                                    <!--end::Title-->
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <span class="fw-bolder text-center nameCard"></span>
+                            <span class="text-center infoCard"></span>
+                            <div class="separator border-2 my-10"></div>
+                            <div class="menu d-flex flex-column align-items-center">
+
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-12" id="cardInfoShow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section("script")
+    @include("scripts.account.payment.index")
 @endsection
