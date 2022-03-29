@@ -21,6 +21,7 @@ Route::prefix("account")->group(function () {
     Route::post('signate', [\App\Http\Controllers\Api\AccountController::class, 'signate']);
     Route::post('card', [\App\Http\Controllers\Api\AccountController::class, 'getCard']);
     Route::post('card/{number}/lock', [\App\Http\Controllers\Api\AccountController::class, 'lockCard']);
+    Route::get('card/{number}/plafond', [\App\Http\Controllers\Api\AccountController::class, 'getPlafond']);
 });
 
 Route::prefix('transaction')->group(function () {

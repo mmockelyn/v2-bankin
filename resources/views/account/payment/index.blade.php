@@ -255,6 +255,44 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="modalLimitDraw">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gérez mes plafonds</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body text-center">
+                    <div class="fw-bolder fs-1">Paiements et retraits disponibles aujourd'hui</div>
+                    <div class="fs-5">Sous réserve des opérations en cours.</div>
+                    <div class="d-flex flex-column justify-content-between mt-5 mb-5">
+                        <div class="d-flex flex-row justify-content-between fs-4 mb-2">
+                            <div class="">Paiement Disponible: <span id="paymentLimit" class="fw-bolder"></span></div>
+                            <i class="fas fa-info-circle text-bank-payment" data-bs-toogle="tooltip" data-bs-custom-class="tooltip-dark" title=""></i>
+                        </div>
+                        <div class="progress h-25px">
+                            <div class="progress-bar progressPayment text-black" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between mt-5 mb-5">
+                        <div class="d-flex flex-row justify-content-between fs-4 mb-2">
+                            <div class="">Retrait Disponible: <span id="withdrawLimit" class="fw-bolder"></span></div>
+                            <i class="fas fa-info-circle text-bank-withdraw" data-bs-toogle="tooltip" data-bs-custom-class="tooltip-dark" title=""></i>
+                        </div>
+                        <div class="progress h-25px">
+                            <div class="progress-bar progressWithdraw" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section("script")

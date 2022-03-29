@@ -131,4 +131,30 @@ class AccountController extends Controller
 
         return $card->status;
     }
+
+    public function getPlafond(Request $request, $number)
+    {
+        $card = CustomerCreditCard::where('number', $number)->first();
+        $payment_month = $card->wallet->transactions()->where('type', 'payment')->where('confirmed', 1)->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->get()->sum('amount');
+        $withdraw_month = $card->wallet->transactions()->where('type', 'withdraw')->where('confirmed', 1)->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->get()->sum('amount');
+
+        $payment_dispo = $card->payment_limit - $payment_month;
+        $retrait_dispo = $card->withdraw_limit - $withdraw_month;
+
+        $payment_dispo_percent = ($payment_month * 100) / $card->payment_limit;
+        $withdraw_dispo_percent = ($withdraw_month * 100) / $card->withdraw_limit;
+
+        return response()->json([
+            "payment" => [
+                "limit" => eur($card->payment_limit),
+                "dispo" => eur($payment_dispo),
+                "percent_usage" => $payment_dispo_percent
+            ],
+            "withdraw" => [
+                "limit" => eur($card->withdraw_limit),
+                "dispo" => eur($retrait_dispo),
+                "percent_usage" => $withdraw_dispo_percent
+            ]
+        ]);
+    }
 }

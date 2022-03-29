@@ -2,11 +2,13 @@
     let elements = {
         btnShowCard: document.querySelectorAll('.showCard'),
         modalShowCard: document.querySelector('#showCard'),
-        modalOpposite: document.querySelector('#modalOpposition')
+        modalOpposite: document.querySelector('#modalOpposition'),
+        modalLimitDraw: document.querySelector('#modalLimitDraw')
     }
 
     let modalShowCard = new bootstrap.Modal(elements.modalShowCard)
     let modalOpposite = new bootstrap.Modal(elements.modalOpposite)
+    let modalLimitDraw = new bootstrap.Modal(elements.modalLimitDraw)
 
     let lockedCard = (card) => {
         $.ajax({
@@ -20,6 +22,25 @@
 
     let showModalOpposite = () => {
         modalOpposite.show()
+    }
+
+    let showModalLimitDraw = (number) => {
+        $.ajax({
+            url: `/api/account/card/${number}/plafond`,
+            success: data => {
+                console.log(data)
+                elements.modalLimitDraw.querySelector('#paymentLimit').innerHTML = data.payment.limit
+                elements.modalLimitDraw.querySelector('.text-bank-payment').setAttribute('title', "Votre disponible est estimé en déduisant de vos "+data.payment.limit+" de plafond tous les achats que vous avez effectués les 15 derniers jours.")
+                elements.modalLimitDraw.querySelector('.progressPayment').innerHTML = `Il reste ${data.payment.dispo} disponible`
+                elements.modalLimitDraw.querySelector('.progressPayment').style.width = data.payment.percent_usage
+
+                elements.modalLimitDraw.querySelector('#withdrawLimit').innerHTML = data.withdraw.limit
+                elements.modalLimitDraw.querySelector('.text-bank-payment').setAttribute('title', "Votre disponible est estimé en déduisant de vos "+data.withdraw.limit+" de plafond tous les retraits que vous avez effectués les 15 derniers jours.")
+                elements.modalLimitDraw.querySelector('.progressWithdraw').innerHTML = `Il reste ${data.withdraw.dispo} disponible`
+                elements.modalLimitDraw.querySelector('.progressWithdraw').style.width = data.withdraw.percent_usage
+            }
+        })
+        modalLimitDraw.show()
     }
 
     elements.btnShowCard.forEach(btn => {
@@ -46,7 +67,7 @@
                         <div class="px-5 fs-5 text-dark">Faire Opposition</div>
                         <i class="fas fa-chevron-right fa-2x ms-2"></i>
                     </a>
-                    <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px">
+                    <a class="d-flex justify-content-between align-items-center bg-hover-lighten w-400px h-50px" onclick="showModalLimitDraw(${data.card.number})">
                         <div class="px-5 fs-5 text-dark">Gérer mes plafonds</div>
                         <i class="fas fa-chevron-right fa-2x ms-2"></i>
                     </a>
