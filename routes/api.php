@@ -31,6 +31,8 @@ Route::prefix("account")->group(function () {
 
     Route::delete('levy/{uuid}', [\App\Http\Controllers\Api\AccountController::class, 'deleteLevy']);
     Route::delete('levy', [\App\Http\Controllers\Api\AccountController::class, 'deleteLevies']);
+
+    Route::get('/document/{id}', [\App\Http\Controllers\Api\AccountController::class, 'getDocument']);
 });
 
 Route::prefix('transaction')->group(function () {

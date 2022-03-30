@@ -11,6 +11,7 @@ use App\Mail\Account\CheckoutCheck;
 use App\Mail\Account\DemandeContact;
 use App\Mail\Account\UpdateStatusCheck;
 use App\Models\Core\Bank;
+use App\Models\Core\DocumentTransmiss;
 use App\Models\Customer\CustomerCheck;
 use App\Models\Customer\CustomerCreditCard;
 use App\Models\Customer\CustomerLevy;
@@ -279,5 +280,12 @@ class AccountController extends Controller
         $levy->save();
 
         return response()->json();
+    }
+
+    public function getDocument($document_id)
+    {
+        $document = DocumentTransmiss::find($document_id);
+
+        return response()->json($document);
     }
 }

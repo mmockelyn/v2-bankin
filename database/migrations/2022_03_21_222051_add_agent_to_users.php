@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('agent')->default(false);
+            $table->integer('safebox_id')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->removeColumn('agent');
+            $table->removeColumn('safebox_id');
         });
     }
 };
