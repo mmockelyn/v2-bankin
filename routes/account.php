@@ -37,6 +37,9 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
 
     Route::prefix('documents')->group(function () {
         Route::get('/', [\App\Http\Controllers\Account\DocumentController::class, 'index'])->name('account.document.index');
+        Route::get('/gdd', [\App\Http\Controllers\Account\DocumentController::class, 'gdd'])->name('account.document.gdd');
+        Route::get('/gdd/{category_id}/list', [\App\Http\Controllers\Account\DocumentController::class, 'documentList'])->name('account.document.list');
+        Route::get('/transmiss', [\App\Http\Controllers\Account\DocumentController::class, 'transmiss'])->name('account.document.transmiss');
     });
 
     Route::prefix("insurance")->group(function () {

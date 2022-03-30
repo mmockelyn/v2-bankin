@@ -22,117 +22,51 @@
 @endsection
 
 @section("content")
-    <div class="card shadow-lg mb-10">
+    <div class="card shadow-lg">
         <div class="card-body">
-            <h2 class="fw-bold fs-4 mb-5">Mes cartes</h2>
-            @foreach(request()->user()->customer->wallets as $wallet)
-
-                    <div class="d-flex flex-row justify-content-around flex-center">
-                        @foreach($wallet->cards()->where('type', 'VIRTUAL')->get() as $card)
-                        <div class="cursor-pointer card h-200px w-350px bgi-no-repeat bgi-size-cover me-5 showCard" data-card="{{ $card->id }}" style="background-image:url('/storage/{{ $card->support }}.png')">
-                            <!--begin::Body-->
-                            <div class="card-body p-6 ribbon ribbon-end">
-                                {!! \App\Helpers\Customer\CreditCard::getStatusCard($card->status, true) !!}
-                                <!--begin::Title-->
-                                <span class="position-absolute top-75 start-25 text-white fw-bold fs-5">{{ \App\Helpers\Customer\CreditCard::getCreditCard($card->number) }}</span>
-                                <span class="position-absolute top-75 start-75 text-white fw-bold fs-6">{{ $card->exp_month }}/{{ Str::substr($card->exp_year, 2,4) }}</span>
-                                <span class="position-absolute top-50 start-25 text-white fw-bolder fs-3">{{ \App\Helpers\Customer\Customer::getName(request()->user()->customer) }}</span>
-                                <span class="position-absolute top-25 start-75 text-white fw-bolder fs-7">{{ $card->support }}</span>
-                                <!--end::Title-->
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                        @endforeach
+            <a href="{{ route('account.document.gdd') }}" class="card bg-gray-200 bg-hover-lighten h-100px mb-5">
+                <!--begin::Body-->
+                <div class="card-body d-flex align-items-center mb-7">
+                    <div class="symbol symbol-50px me-5">
+                        <div class="symbol-label fs-2 fw-bold text-success"><i class="fa-regular fa-file-lines"></i></div>
                     </div>
-
-            @endforeach
-        </div>
-    </div>
-
-    <div class="modal bg-white fade" tabindex="-1" id="add-credit-card">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content shadow-none">
-                <div class="modal-header">
-                    <h5 class="modal-title">Nouvelle carte bancaire</h5>
-
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times fa-2x"></i>
+                    <div class="d-flex flex-column">
+                        <div class="fw-bolder text-dark">Consulter mes documents</div>
+                        <span class="text-muted">Accéder à mes documents bancaires (relevés de compte, courriers, etc...)</span>
                     </div>
-                    <!--end::Close-->
                 </div>
-
-                <form action="{{ route('account.payment.addCart') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <h1 class="fw-bolder mb-5">Type de carte bancaire</h1>
-                        <div class="d-flex flex-row justify-content-between mb-10">
-                            <div>
-                                <input type="radio" class="btn-check" name="support" value="ELECTRON" id="kt_radio_buttons_2_option_1"/>
-                                <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex flex-column justify-contents-center mb-5 text-center" for="kt_radio_buttons_2_option_1">
-                                    <img src="/storage/ELECTRON.png" alt="">
-                                    <span class="d-block fw-bold text-start">
-                                    <span class="text-dark fw-bolder d-block fs-3 text-center mt-2">VISA ELECTRON</span>
-                                </span>
-                                </label>
-                            </div>
-                            <div>
-                                <input type="radio" class="btn-check" name="support" value="CLASSIC" id="kt_radio_buttons_2_option_2"/>
-                                <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex flex-column justify-contents-center mb-5 text-center" for="kt_radio_buttons_2_option_2">
-                                    <img src="/storage/CLASSIC.png" alt="">
-                                    <span class="d-block fw-bold text-start">
-                                    <span class="text-dark fw-bolder d-block fs-3 text-center mt-2">VISA CLASSIC</span>
-                                </span>
-                                </label>
-                            </div>
-                            <div>
-                                <input type="radio" class="btn-check" name="support" value="PREMIUM" id="kt_radio_buttons_2_option_3"/>
-                                <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex flex-column justify-contents-center mb-5 text-center" for="kt_radio_buttons_2_option_3">
-                                    <img src="/storage/PREMIUM.png" alt="">
-                                    <span class="d-block fw-bold text-start">
-                                    <span class="text-dark fw-bolder d-block fs-3 text-center mt-2">VISA PREMIUM</span>
-                                </span>
-                                </label>
-                            </div>
-                            <div>
-                                <input type="radio" class="btn-check" name="support" value="INFINITE" id="kt_radio_buttons_2_option_4"/>
-                                <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex flex-column justify-contents-center mb-5 text-center" for="kt_radio_buttons_2_option_4">
-                                    <img src="/storage/INFINITE.png" alt="">
-                                    <span class="d-block fw-bold text-start">
-                                    <span class="text-dark fw-bolder d-block fs-3 text-center mt-2">VISA INFINITE</span>
-                                </span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="mb-10">
-                            <label for="" class="form-label required">Type de débit</label>
-                            <select class="form-control" name="debit">
-                                <option value="IMMEDIATE">Débit immédiat (Authorisation Systématique)</option>
-                                <option value="DIFFERED">Débit différé (Paiement M+1)</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-10">
-                            <label for="" class="form-label required">Compte affilier</label>
-                            <select class="form-control" name="customer_wallet_id">
-                                <option value=""></option>
-                                @foreach(request()->user()->customer->wallets()->where('status', 'ACTIVE')->where('type', 'account')->get() as $wallet)
-                                    <option value="{{ $wallet->id }}">Compte N° {{ $wallet->number_account }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                <!--end::Body-->
+            </a>
+            <a href="#showRib" data-bs-toggle="modal" class="card bg-gray-200 bg-hover-lighten h-100px mb-5">
+                <!--begin::Body-->
+                <div class="card-body d-flex align-items-center mb-7">
+                    <div class="symbol symbol-50px me-5">
+                        <div class="symbol-label fs-2 fw-bold text-success"><i class="fa-solid fa-print"></i></div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-bank">Demander ma nouvelle carte bancaire</button>
+                    <div class="d-flex flex-column">
+                        <div class="fw-bolder text-dark">Imprimer mon RIB/IBAN</div>
+                        <span class="text-muted">Consulter et imprimer le RIB/IBAN de mes comptes bancaires</span>
                     </div>
-                </form>
-            </div>
+                </div>
+                <!--end::Body-->
+            </a>
+            <a href="{{ route('account.document.transmiss') }}" class="card bg-gray-200 bg-hover-lighten h-100px mb-5">
+                <!--begin::Body-->
+                <div class="card-body d-flex align-items-center mb-7">
+                    <div class="symbol symbol-50px me-5">
+                        <div class="symbol-label fs-2 fw-bold text-success"><i class="fa-solid fa-file-arrow-up"></i></div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="fw-bolder text-dark">Mes documents à transmettre</div>
+                        <span class="text-muted">Acceder à la liste des documents à transmettre à la demande de votre banque.</span>
+                    </div>
+                </div>
+                <!--end::Body-->
+            </a>
         </div>
     </div>
 @endsection
 
 @section("script")
-    @include("scripts.account.payment.index")
+    @include("scripts.account.document.index")
 @endsection
