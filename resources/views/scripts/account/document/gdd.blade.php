@@ -2,7 +2,10 @@
     let menus = document.querySelectorAll('.menu-link')
     let divShowDocument = document.querySelector('#showDocument')
 
-    let blockUI = new KTBlockUI(divShowDocument);
+    let blockUI = new KTBlockUI(divShowDocument, {
+        overlayClass: "bg-gray-600 bg-opacity-25",
+        message: '<div class="blockui-message"><span class="spinner-border text-bank"></span></div>',
+    });
 
 
     menus.forEach(menu => {

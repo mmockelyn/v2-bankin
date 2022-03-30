@@ -65,6 +65,97 @@
             </a>
         </div>
     </div>
+    <div class="modal bg-white fade" tabindex="-1" id="showRib">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content shadow-none">
+                <div class="modal-header">
+                    <h5 class="modal-title">Consultation et impression RIB/IBAN</h5>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex flex-row justify-content-between">
+                        @foreach(request()->user()->customer->wallets as $wallet)
+                            <div class="card shadow-lg w-600px">
+                                <div class="card-header bg-bank">
+                                    <h3 class="card-title text-white">Compte N°{{ $wallet->number_account }}</h3>
+                                    <div class="card-toolbar">
+                                        @switch($wallet->status)
+                                            @case("PENDING")
+                                            <span class="badge badge-lg badge-warning">Ouverture en cours</span>
+                                            @break
+
+                                            @case("FAILED")
+                                            <span class="badge badge-lg badge-danger">ERREUR</span>
+                                            @break
+
+                                            @case("SUSPENDED")
+                                            <span class="badge badge-lg badge-warning">Compte suspendu</span>
+                                            @break
+
+                                            @case("CLOSED")
+                                            <span class="badge badge-lg badge-warning">Compte clôturer</span>
+                                            @break
+
+                                            @case("ACTIVE")
+                                            <span class="badge badge-lg badge-success">Compte Actif</span>
+                                            @break
+                                        @endswitch
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center mb-10">
+                                        <div class="fs-1 fw-light">{{ \App\Helpers\Customer\Customer::getType($wallet->customer) }}</div>
+                                        <div class="fs-4">{{ $wallet->number_account }} {{ $wallet->agency->name }} - {{ \App\Helpers\Customer\Customer::getName($wallet->customer) }}</div>
+                                    </div>
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <div class="fs-2">IBAN</div>
+                                            <div class="">{{ $wallet->iban }}</div>
+                                        </div>
+                                        <i class="fa-solid fa-file fa-xl"></i>
+                                    </div>
+                                    <div class="separator border-2 my-5"></div>
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                        <div class="d-flex flex-column">
+                                            <div class="fs-2">BIC</div>
+                                            <div class="">{{ $wallet->agency->bic }}</div>
+                                        </div>
+                                        <i class="fa-solid fa-file fa-xl"></i>
+                                    </div>
+                                    <div class="separator border-2 my-5"></div>
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-10">
+                                        <div class="d-flex flex-column">
+                                            <div class="fs-2">Code banque</div>
+                                            <div class="">{{ $wallet->agency->code_banque }}</div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <div class="fs-2">Code guichet</div>
+                                            <div class="">{{ $wallet->agency->code_guichet }}</div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <div class="fs-2">N° Compte</div>
+                                            <div class="">{{ $wallet->number_account }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="fs-1">{{ config('app.name') }}</div>
+                                    <div class="fs-2">Agence: {{ $wallet->agency->name }}</div>
+                                </div>
+                                <div class="card-footer d-flex flex-center">
+                                    <a href="" class="btn btn-bank w-500px">Télécharger</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section("script")

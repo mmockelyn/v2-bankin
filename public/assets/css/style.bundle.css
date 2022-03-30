@@ -6517,6 +6517,18 @@ textarea.form-control-lg {
   animation: 0.65s linear infinite spinner-border;
 }
 
+.spinner-border-lg {
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.235em;
+}
+
+.spinner-border-xl {
+    width: 6rem;
+    height: 6rem;
+    border-width: 0.265em;
+}
+
 .spinner-border-sm {
   width: 1rem;
   height: 1rem;

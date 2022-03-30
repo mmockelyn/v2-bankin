@@ -21,16 +21,16 @@ class IbanGenerator
         $this->totalPaysECBS = sizeof($this->pays)-1;
     }
 
-    public function generate($num_pays)
+    public function generate($num_pays, $customer)
     {
-        $code_branche = $this->code_branche($num_pays);
+        $code_branche = $customer->user->agence->code_guichet;
         $numero_cpt = $this->numero_cpt($num_pays);
         $key = $this->keyBBAN($num_pays);
         $pays = $this->codePays[$num_pays];
-        $bban = "".$this->code_banque($num_pays).$code_branche.$numero_cpt.$key.base_convert(substr($pays, 0, 1), 36, 10).base_convert(substr($pays, 1, 1), 36, 10)."00";
+        $bban = "".$customer->user->agence->code_banque.$code_branche.$numero_cpt.$key.base_convert(substr($pays, 0, 1), 36, 10).base_convert(substr($pays, 1, 1), 36, 10)."00";
         $cleIban = '98' - bcmod($bban, 97);
 
-        $rib = "".$this->code_banque($num_pays).$code_branche.$numero_cpt.$key."";
+        $rib = "".$customer->user->agence->code_banque.$code_branche.$numero_cpt.$key."";
         $iban = "".$pays.$cleIban.$rib."";
 
         return $iban;

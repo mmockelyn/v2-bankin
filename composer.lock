@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a789eae578af6964bb752cd727efa76",
+    "content-hash": "39fbc7adfab52ea28cb024694cee73b8",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -14155,7 +14155,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.1 || ^8.0"
+        "php": "7.1 || 7.2 || ^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.2.0"
