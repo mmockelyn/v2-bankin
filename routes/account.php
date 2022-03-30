@@ -40,6 +40,7 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::get('/gdd', [\App\Http\Controllers\Account\DocumentController::class, 'gdd'])->name('account.document.gdd');
         Route::get('/gdd/{category_id}/list', [\App\Http\Controllers\Account\DocumentController::class, 'documentList'])->name('account.document.list');
         Route::get('/transmiss', [\App\Http\Controllers\Account\DocumentController::class, 'transmiss'])->name('account.document.transmiss');
+        Route::post('/transmiss', [\App\Http\Controllers\Account\DocumentController::class, 'postDocument'])->name('account.document.postDocument');
     });
 
     Route::prefix("insurance")->group(function () {

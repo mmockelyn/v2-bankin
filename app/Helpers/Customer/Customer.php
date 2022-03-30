@@ -209,7 +209,7 @@ class Customer
         $pdf->setOption('footer-font-size',8);
         $pdf->setOption('margin-left',0);
         $pdf->setOption('margin-right',0);
-        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/'.\Str::slug($name).'.pdf'), true);
+        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contrats-signes/'.\Str::slug($name).'.pdf'), true);
 
         \Mail::to($customer->user)->send(new Welcome($customer, $document));
     }
