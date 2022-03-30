@@ -50,6 +50,35 @@
                 </div>
                 <!--end::Body-->
             </a>
+            @if(request()->user()->safebox_id != null)
+                <a href="//safebox.finbank.tk" class="card bg-gray-200 bg-hover-lighten h-100px mb-5">
+                    <!--begin::Body-->
+                    <div class="card-body d-flex align-items-center mb-7">
+                        <div class="symbol symbol-50px me-5">
+                            <div class="symbol-label fs-2 fw-bold text-success"><i class="fa-regular fa-file-lines"></i></div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bolder text-dark">Consulter mon Coffre-Fort Numérique</div>
+                            <span class="text-muted">Regrouper dans un espace sécurisé mes documents numériques personnels et professionnels</span>
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </a>
+            @else
+                <div class="card bg-gray-200 bg-hover-lighten opacity-15 h-100px mb-5" data-bs-toggle="tooltip" title="Vous devez souscrire à une offre SafeBox pour acceder à cette espace.">
+                    <!--begin::Body-->
+                    <div class="card-body d-flex align-items-center mb-7">
+                        <div class="symbol symbol-50px me-5">
+                            <div class="symbol-label fs-2 fw-bold text-success"><i class="fa-regular fa-file-lines"></i></div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bolder text-dark">Consulter mon Coffre-Fort Numérique</div>
+                            <span class="text-muted">Regrouper dans un espace sécurisé mes documents numériques personnels et professionnels</span>
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+            @endif
             <a href="{{ route('account.document.transmiss') }}" class="card bg-gray-200 bg-hover-lighten h-100px mb-5">
                 <!--begin::Body-->
                 <div class="card-body d-flex align-items-center mb-7">
