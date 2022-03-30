@@ -173,6 +173,20 @@ class Customer
 
     }
 
+    public static function getAdressLetter($customer)
+    {
+        if($customer->type_account == 'BUSINESS') {
+            return $customer->company->address.'<br>'
+                .isset($customer->company->addressbis) ? $customer->company->addressbis."<br>" : "<br>"
+                .$customer->company->postal." ".$customer->company->city."<br>";
+        } else {
+            return $customer->individual->address.'<br>'
+            .isset($customer->individual->addressbis) ? $customer->individual->addressbis."<br>" : "<br>"
+                .$customer->individual->postal." ".$customer->individual->city."<br>";
+        }
+
+    }
+
     public static function generateConvention($customer)
     {
         $agence = $customer->user->agence;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Customer\CreditCard;
 use App\Helpers\Customer\Transaction;
+use App\Helpers\IbanGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Customer\CustomerWallet;
 use App\Services\Stripe;
@@ -53,7 +54,7 @@ class HomeController extends Controller
         }
     }
 
-    public function checkoutSuccess(Request $request, Transaction $transaction, CreditCard $card)
+    public function checkoutSuccess(Request $request, Transaction $transaction, CreditCard $card, IbanGenerator $generator)
     {
         $wallet = CustomerWallet::where('number_account', $request->get('wallet'))->first();
         $package = $wallet->customer->package;
@@ -69,6 +70,7 @@ class HomeController extends Controller
         $wallet->save();
 
         $card->createCard($wallet, 'physical', 'CLASSIC', "IMMEDIATE");
+        $generator->generatePdf($wallet);
 
         return redirect()->route('suivi');
     }

@@ -1,22 +1,19 @@
 @font-face {
     font-family: "fonticon";
-    src: url("./fonticon.ttf?a8916bb98b41e9f4ae8514e7dfadee17") format("truetype"),
-url("./fonticon.woff?a8916bb98b41e9f4ae8514e7dfadee17") format("woff"),
-url("./fonticon.woff2?a8916bb98b41e9f4ae8514e7dfadee17") format("woff2"),
-url("./fonticon.eot?a8916bb98b41e9f4ae8514e7dfadee17#iefix") format("embedded-opentype"),
-url("./fonticon.svg?a8916bb98b41e9f4ae8514e7dfadee17#fonticon") format("svg");
+    src: url("./fonticon.ttf?44df81452722ee16b4871221b3a52b25") format("truetype"),
+url("./fonticon.woff?44df81452722ee16b4871221b3a52b25") format("woff"),
+url("./fonticon.woff2?44df81452722ee16b4871221b3a52b25") format("woff2"),
+url("./fonticon.eot?44df81452722ee16b4871221b3a52b25#iefix") format("embedded-opentype"),
+url("./fonticon.svg?44df81452722ee16b4871221b3a52b25#fonticon") format("svg");
 }
 
-i[class^="fonticon-"]:before, 
-i[class*=" fonticon-"]:before {
+i[class^="fonticon-"]:before, i[class*=" fonticon-"]:before {
     font-family: fonticon !important;
     font-style: normal;
     font-weight: normal !important;
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-    display: inline-block;
-    vertical-align: middle;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -126,33 +123,48 @@ i[class*=" fonticon-"]:before {
 .fonticon-dogecoin:before {
     content: "\f123";
 }
-.fonticon-ethereum:before {
+.fonticon-bitcoin:before {
     content: "\f124";
 }
-.fonticon-bitcoin:before {
+.fonticon-setting:before {
     content: "\f125";
 }
-.fonticon-setting:before {
+.fonticon-headset:before {
     content: "\f126";
 }
-.fonticon-headset:before {
+.fonticon-play:before {
     content: "\f127";
 }
-.fonticon-play:before {
+.fonticon-pause:before {
     content: "\f128";
 }
-.fonticon-pause:before {
+.fonticon-next:before {
     content: "\f129";
 }
-.fonticon-next:before {
+.fonticon-back:before {
     content: "\f12a";
 }
-.fonticon-back:before {
+.fonticon-shuffle:before {
     content: "\f12b";
 }
-.fonticon-shuffle:before {
+.fonticon-repeat:before {
     content: "\f12c";
 }
-.fonticon-repeat:before {
+.fonticon-outgoing-call:before {
     content: "\f12d";
+}
+.fonticon-incoming-call:before {
+    content: "\f12e";
+}
+.fonticon-cash-payment:before {
+    content: "\f12f";
+}
+.fonticon-mobile-payment:before {
+    content: "\f130";
+}
+.fonticon-card-payment:before {
+    content: "\f131";
+}
+.fonticon-card:before {
+    content: "\f132";
 }
