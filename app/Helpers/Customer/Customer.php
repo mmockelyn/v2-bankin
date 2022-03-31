@@ -173,6 +173,20 @@ class Customer
 
     }
 
+    public static function getAdressLetter($customer)
+    {
+        if($customer->type_account == 'BUSINESS') {
+            return $customer->company->address.'<br>'
+                .isset($customer->company->addressbis) ? $customer->company->addressbis."<br>" : "<br>"
+                .$customer->company->postal." ".$customer->company->city."<br>";
+        } else {
+            return $customer->individual->address.'<br>'
+            .isset($customer->individual->addressbis) ? $customer->individual->addressbis."<br>" : "<br>"
+                .$customer->individual->postal." ".$customer->individual->city."<br>";
+        }
+
+    }
+
     public static function generateConvention($customer)
     {
         $agence = $customer->user->agence;
@@ -195,7 +209,7 @@ class Customer
         $pdf->setOption('footer-font-size',8);
         $pdf->setOption('margin-left',0);
         $pdf->setOption('margin-right',0);
-        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contract/'.\Str::slug($name).'.pdf'), true);
+        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/contrats-signes/'.\Str::slug($name).'.pdf'), true);
 
         \Mail::to($customer->user)->send(new Welcome($customer, $document));
     }

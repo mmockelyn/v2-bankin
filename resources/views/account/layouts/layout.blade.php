@@ -29,6 +29,7 @@ License: For each use you must have a valid license purchased only from above li
     <link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/custom.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     @yield('css')
     <!--end::Global Stylesheets Bundle-->
 </head>
@@ -102,6 +103,7 @@ License: For each use you must have a valid license purchased only from above li
 <!--begin::Page Vendors Javascript(used by this page)-->
 <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
 <script src="/js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
 <!--end::Page Vendors Javascript-->
 <!--begin::Page Custom Javascript(used by this page)-->
 @include("scripts.global")
