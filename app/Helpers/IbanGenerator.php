@@ -4,6 +4,9 @@
 namespace App\Helpers;
 
 
+use App\Helpers\Customer\DocumentFile;
+use PDF;
+
 class IbanGenerator
 {
     protected $pays = ["Andorre","Autriche","Belgique","Bosnie-Herz�govine","Croatie","Chypre","R�publique Tch�que","Danemark","Estonie","Finlande","France","Allemagne","Gibraltar","Gr�ce","Hongrie","Islande","Irlande","Italie","Lettonie","Liechtenstein","Lituanie","Luxembourg","Mac�doine","Malte","Maurice","Mont�n�gro","Pays-Bas","Norv�ge","Pologne","Portugal","Roumanie","Serbie","Slovaquie","Slov�nie","Espagne","Su�de","Suisse","Tunisie","Turquie","Royaume-Uni","�les F�ro�","Guyane","Polyn�sie fran�aise","Terres australes et antarctiques fran�aises","Guadeloupe","Guernesey","�le de Man","Jersey","Martinique","Mayotte","Monaco","Nouvelle-Cal�donie","R�union","Saint-Pierre-et-Miquelon","Saint-Marin","Wallis-et-Futuna"];
@@ -21,16 +24,16 @@ class IbanGenerator
         $this->totalPaysECBS = sizeof($this->pays)-1;
     }
 
-    public function generate($num_pays)
+    public function generate($num_pays, $customer)
     {
-        $code_branche = $this->code_branche($num_pays);
+        $code_branche = $customer->user->agence->code_guichet;
         $numero_cpt = $this->numero_cpt($num_pays);
         $key = $this->keyBBAN($num_pays);
         $pays = $this->codePays[$num_pays];
-        $bban = "".$this->code_banque($num_pays).$code_branche.$numero_cpt.$key.base_convert(substr($pays, 0, 1), 36, 10).base_convert(substr($pays, 1, 1), 36, 10)."00";
+        $bban = "".$customer->user->agence->code_banque.$code_branche.$numero_cpt.$key.base_convert(substr($pays, 0, 1), 36, 10).base_convert(substr($pays, 1, 1), 36, 10)."00";
         $cleIban = '98' - bcmod($bban, 97);
 
-        $rib = "".$this->code_banque($num_pays).$code_branche.$numero_cpt.$key."";
+        $rib = "".$customer->user->agence->code_banque.$code_branche.$numero_cpt.$key."";
         $iban = "".$pays.$cleIban.$rib."";
 
         return $iban;
@@ -113,6 +116,35 @@ class IbanGenerator
         }
 
         return $cleBBAN;
+    }
+
+    public function generatePdf($wallet)
+    {
+        $customer = $wallet->customer;
+        $agence = $wallet->agency;
+        $header = view()
+            ->make("agence.pdf.header_basic")
+            ->with('agence', $agence)
+            ->with('customer', $wallet->customer)
+            ->render();
+
+        $file = new DocumentFile();
+        $reference = \Str::upper(\Str::random(10));
+
+        $name = "rib";
+
+        $document = $file->createDocument($name, $wallet->customer, 4, $reference);
+
+        $pdf = $pdf = PDF::loadView('agence.pdf.account.rib', compact('agence', 'customer', 'document', 'name', 'wallet'));
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('viewport-size', '1280x1024');
+        $pdf->setOption('header-html', $header);
+        $pdf->setOption('footer-right', '[page]/[topage]');
+        $pdf->setOption('footer-font-size', 8);
+        $pdf->setOption('margin-left', 0);
+        $pdf->setOption('margin-right', 0);
+        $pdf->save(public_path('/storage/gdd/'.$customer->id.'/courriers/'.\Str::slug($name).'.pdf'), true);
+
     }
 
 }

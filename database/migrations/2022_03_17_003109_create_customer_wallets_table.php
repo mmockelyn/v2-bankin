@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('currency', 3)->default('EUR');
             $table->string('iban');
             $table->float('outstanding')->default(0);
+            $table->boolean('alert_debit')->default(false);
+            $table->boolean('fee_alert')->default(false);
+            $table->timestamp('date_alert_debit')->nullable();
 
             $table->foreignId('customer_id')
                             ->constrained()

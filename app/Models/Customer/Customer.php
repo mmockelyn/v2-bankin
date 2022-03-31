@@ -2,6 +2,7 @@
 
 namespace App\Models\Customer;
 
+use App\Models\Core\DocumentTransmiss;
 use App\Models\Core\Package;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -72,8 +73,14 @@ class Customer extends Model
     {
         return $this->hasMany(CustomerCheck::class);
     }
+
     public function levies()
     {
         return $this->hasMany(CustomerLevy::class);
+    }
+
+    public function transmisses()
+    {
+        return $this->hasMany(DocumentTransmiss::class);
     }
 }

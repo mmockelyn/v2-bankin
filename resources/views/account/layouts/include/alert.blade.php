@@ -8,7 +8,7 @@
         <!--begin::Content-->
         <div class="d-flex flex-column text-light pe-0 pe-sm-10">
             <h4 class="mb-2 text-light">Erreur</h4>
-            <span>{{ session()->get('error') }}</span>
+            <span>{!! session()->get('error') !!}</span>
         </div>
         <!--end::Content-->
     </div>
@@ -24,7 +24,7 @@
         <!--begin::Content-->
         <div class="d-flex flex-column text-light pe-0 pe-sm-10">
             <h4 class="mb-2 text-light">Information</h4>
-            <span>{{ session()->get('info') }}</span>
+            <span>{!! session()->get('info') !!}</span>
         </div>
         <!--end::Content-->
     </div>
@@ -40,7 +40,7 @@
         <!--begin::Content-->
         <div class="d-flex flex-column text-light pe-0 pe-sm-10">
             <h4 class="mb-2 text-light">Attention</h4>
-            <span>{{ session()->get('warning') }}</span>
+            <span>{!! session()->get('warning') !!}</span>
         </div>
         <!--end::Content-->
     </div>
@@ -56,7 +56,7 @@
         <!--begin::Content-->
         <div class="d-flex flex-column text-light pe-0 pe-sm-10">
             <h4 class="mb-2 text-light">Succès</h4>
-            <span>{{ session()->get('success') }}</span>
+            <span>{!! session()->get('success') !!}</span>
         </div>
         <!--end::Content-->
     </div>
@@ -75,7 +75,7 @@
             <h4 class="mb-2 text-light">Erreur</h4>
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                    <li>{!! $error !!}</li>
                 @endforeach
             </ul>
         </div>
