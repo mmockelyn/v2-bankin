@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('lastname');
             $table->timestamp('date_birth');
             $table->string("type_habitant")->default('Souscripteur');
+            $table->unsignedBigInteger('insurance_home_id');
+
+            $table->foreign('insurance_home_id')->references('id')->on('customer_insurance_homes')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
         });
     }
 

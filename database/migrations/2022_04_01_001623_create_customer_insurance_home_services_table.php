@@ -19,10 +19,11 @@ return new class extends Migration
             $table->boolean('construction')->default(false);
             $table->boolean('relocation')->default(false);
 
-            $table->foreignId('customer_insurance_home_id')
-                            ->constrained()
-                            ->cascadeOnUpdate()
-                            ->cascadeOnDelete();
+            $table->unsignedBigInteger('insurance_home_id');
+
+            $table->foreign('insurance_home_id')->references('id')->on('customer_insurance_homes')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
         });
     }

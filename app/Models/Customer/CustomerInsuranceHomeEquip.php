@@ -13,6 +13,6 @@ class CustomerInsuranceHomeEquip extends Model
 
     public function insurance()
     {
-        return $this->belongsTo(CustomerInsuranceHome::class, 'customer_insurance_home_id');
+        return $this->belongsTo(CustomerInsuranceHome::class);
     }
 }

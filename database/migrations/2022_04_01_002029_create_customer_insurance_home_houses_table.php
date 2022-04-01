@@ -23,10 +23,11 @@ return new class extends Migration
             $table->enum("type_logement", ["maison", "appart", "autre"]);
             $table->enum("year_construction", ["t1", "t2", "t3", "t4", "t5"])->comment("T1: Antérieur à 1900 / T2: Entre 1900 et 1950 / T3: Entre 1950 et 1982 / T4: Entre 1982 et 1996 / T5: Supérieur à 1996");
 
-            $table->foreignId('customer_insurance_home_id')
-                            ->constrained()
-                            ->cascadeOnUpdate()
-                            ->cascadeOnDelete();
+            $table->unsignedBigInteger('insurance_home_id');
+
+            $table->foreign('insurance_home_id')->references('id')->on('customer_insurance_homes')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
         });
     }
