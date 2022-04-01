@@ -83,4 +83,9 @@ class Customer extends Model
     {
         return $this->hasMany(DocumentTransmiss::class);
     }
+
+    public function insuranceHomes()
+    {
+        return $this->hasMany(CustomerInsuranceHome::class);
+    }
 }
