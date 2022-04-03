@@ -50,10 +50,10 @@ class CreatePasswordNotification extends Notification
     {
         return (new MailMessage)
                     ->subject("[".config("app.name")."] Mot de passe provisoire")
-                    ->greeting("Bonjour ".$this->user->name)
-                    ->line("Votre compte à été créer avec succès. Votre mot de passe provisoire est le <strong>".$this->password."</strong>")
-                    ->line("Ce mot de passe est bien évidament temporaire.<br>Veuillez le modifier sur votre espace client dès que possible.")
-                    ->salutation("Cordialement")
+                    ->view('emails.account.password', [
+                        "user" => $this->user,
+                        "password" => $this->password
+                    ])
                     ->from("no-reply@bzhmbank.io", config("app.name"));
     }
 
