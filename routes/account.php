@@ -44,7 +44,7 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
     });
 
     Route::prefix("insurance")->group(function () {
-        Route::get('/')->name("account.insurance.index");
+        Route::get('/', [\App\Http\Controllers\Account\InsuranceController::class, 'index'])->name("account.insurance.index");
     });
 
     Route::prefix("subscribe")->group(function () {
