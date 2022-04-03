@@ -34,7 +34,7 @@
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="contract" role="tabpanel">
+        <div class="tab-pane fade show active" id="contracts" role="tabpanel">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="mb-5">
@@ -160,13 +160,26 @@
             </div>
         </div>
         <div class="tab-pane fade" id="claims" role="tabpanel">
+            <div class="card shadow-sm mb-5">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-center">
+                        <button class="btn btn-outline btn-outline-bank btn-hover-primary w-500px me-3">Déclarer un sinistre</button>
+                        <button class="btn btn-outline btn-outline-bank btn-hover-primary w-500px me-3">Déclarer un sinistre par téléphone</button>
+                    </div>
+                </div>
+            </div>
             <div class="card shadow-sm">
+                <div class="card-header">
+                    <h3 class="card-title">Liste de mes déclarations de sinistre</h3>
+                </div>
                 <div class="card-body">
 
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="simulate" role="tabpanel"></div>
+        <div class="tab-pane fade" id="simulate" role="tabpanel">
+            
+        </div>
     </div>
 @endsection
 
