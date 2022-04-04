@@ -13,7 +13,7 @@ class SubscriptionController extends Controller
 {
     public function index(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         if(url()->previous() == '/auth/code/verify') {
             dd($request->all());
             $document = $request->user()->customer->documents()->get()->latest();
@@ -23,6 +23,8 @@ class SubscriptionController extends Controller
                 "contract" => $document
             ]);
         }
+
+        return view('account.subscribe.index');
     }
 
     public function store(Request $request)

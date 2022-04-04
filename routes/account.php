@@ -64,4 +64,7 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::get('instant', [\App\Http\Controllers\Account\SettingsController::class, 'instant'])->name("account.settings.instant");
         Route::put('instant', [\App\Http\Controllers\Account\SettingsController::class, 'updateInstant'])->name("account.settings.updateInstant");
     });
+
+    Route::get('update', [\App\Http\Controllers\Account\AccountController::class, 'edit'])->name('account.edit');
+    Route::post('update', [\App\Http\Controllers\Account\AccountController::class, 'update'])->name('account.update');
 });

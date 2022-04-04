@@ -178,7 +178,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="simulate" role="tabpanel">
-            
+
         </div>
     </div>
 @endsection
