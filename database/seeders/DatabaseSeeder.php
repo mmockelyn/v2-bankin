@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LoanPlanSeeder::class);
         $this->call(DocumentCategorySeeder::class);
         \Artisan::call("bridge:import");
+        //\Artisan::call("import:car");
 
         $agent = User::create([
             "name" => "Mockelyn Maxime",

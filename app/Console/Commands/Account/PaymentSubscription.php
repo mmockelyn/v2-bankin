@@ -5,6 +5,7 @@ namespace App\Console\Commands\Account;
 use App\Helpers\Customer\Transaction;
 use App\Models\User\User;
 use Illuminate\Console\Command;
+use Spatie\SlackAlerts\Facades\SlackAlert;
 
 class PaymentSubscription extends Command
 {
@@ -49,6 +50,7 @@ class PaymentSubscription extends Command
                         $user->customer->setting->notif_com_mail == true ? true : false);
                 }
             }
+            SlackAlert::message('La tache: Paiement des souscriptions mensuelle à été éxecuter');
         }
         return 0;
     }

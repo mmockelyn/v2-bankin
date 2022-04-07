@@ -187,6 +187,15 @@ class Customer
 
     }
 
+    public static function getBirthDate($customer)
+    {
+        if($customer->type_account == 'INDIVIDUAL') {
+            return $customer->individual->datebirth->format("d/m/Y");
+        } else {
+            return "Null";
+        }
+    }
+
     public static function generateConvention($customer)
     {
         $agence = $customer->user->agence;

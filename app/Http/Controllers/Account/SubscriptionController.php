@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Helpers\Customer\DocumentFile;
+use App\Helpers\Customer\Loan;
 use App\Http\Controllers\Controller;
 use App\Models\Customer\Customer;
 use Carbon\Carbon;
@@ -35,6 +36,9 @@ class SubscriptionController extends Controller
                 return $this->storeOverdraft($request);
                 break;
 
+            case 'facelia':
+                return $this->storeFacelia($request);
+
         }
     }
 
@@ -43,6 +47,14 @@ class SubscriptionController extends Controller
         return view("account.subscribe.overdraft", [
             "customer" => $request->user()->customer
         ]);
+    }
+
+    public function subscribe(Request $request)
+    {
+        switch ($request->get('type') == 'facelia') {
+            case 'facelia':
+                return view('account.subscribe.loan.facelia');
+        }
     }
 
     private function storeOverdraft($request)
@@ -69,6 +81,16 @@ class SubscriptionController extends Controller
         } else {
             return redirect()->back()->with('warning', "Aucun Comptes actif");
         }
+    }
+
+    private function storeFacelia($request)
+    {
+        Carbon::setLocale('fr');
+        $loan = new Loan();
+
+        $simulate = $loan->simulate($request->get('amount'), $request->get('duration'), $request->get('insurance'));
+
+
     }
 
     private function generateContract($type, $customer)

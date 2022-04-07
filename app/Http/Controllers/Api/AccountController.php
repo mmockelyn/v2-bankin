@@ -12,6 +12,7 @@ use App\Mail\Account\DemandeContact;
 use App\Mail\Account\UpdateStatusCheck;
 use App\Models\Core\Bank;
 use App\Models\Core\DocumentTransmiss;
+use App\Models\Core\LoanPlan;
 use App\Models\Customer\CustomerCheck;
 use App\Models\Customer\CustomerCreditCard;
 use App\Models\Customer\CustomerLevy;
@@ -50,9 +51,86 @@ class AccountController extends Controller
             case 'overdraft':
                 return $this->overdraft($request);
                 break;
+
+            case 'facelia':
+                return $this->facelia($request);
+                break;
         }
     }
 
+    private function facelia($request)
+    {
+        //dd($request->all());
+        //sleep(3);
+        if($request->get('type') == 'sim_duration') {
+            $amount = $request->get('amount');
+            $duration = $request->get('duration');
+
+            $amount_n = $amount / $duration;
+
+
+
+            $facelia_interest = LoanPlan::with('interests')->find(1);
+            //dd($facelia_interest->interests[0]->percent_interest);
+            if($duration <= 3) {
+                $interest_amount = $amount * ($facelia_interest->interests[0]->percent_interest / 100) / $duration;
+                $taux = $facelia_interest->interests[0]->percent_interest;
+            } elseif ($duration > 3 && $duration <= 5) {
+                $interest_amount = $amount * ($facelia_interest->interests[1]->percent_interest / 100) / $duration;
+                $taux = $facelia_interest->interests[1]->percent_interest;
+            } elseif ($duration > 5 && $duration <= 10) {
+                $interest_amount = $amount * ($facelia_interest->interests[2]->percent_interest / 100) / $duration;
+                $taux = $facelia_interest->interests[2]->percent_interest;
+            } elseif ($duration > 10 && $duration <= 20) {
+                $interest_amount = $amount * ($facelia_interest->interests[3]->percent_interest / 100) / $duration;
+                $taux = $facelia_interest->interests[3]->percent_interest;
+            } else {
+                $interest_amount = $amount * ($facelia_interest->interests[4]->percent_interest / 100) / $duration;
+                $taux = $facelia_interest->interests[4]->percent_interest;
+            }
+
+            $mensuality = $amount_n + $interest_amount;
+            $capital = $mensuality * $duration;
+            if($request->get('insurance') != null) {
+                switch ($request->get('insurance')) {
+                    case 'D':
+                        $assurance = $mensuality * (3.90 / 100);
+                        $mensuality = $mensuality + $assurance;
+                        break;
+
+                    case 'DIM':
+                        $assurance = $mensuality * (6.90 / 100);
+                        $mensuality = $mensuality + $assurance;
+                        break;
+
+                    case 'DIMC':
+                        $assurance = $mensuality * (9.79 / 100);
+                        $mensuality = $mensuality + $assurance;
+                        break;
+
+                    default:
+                        $assurance = 0;
+                        $mensuality = $mensuality + $assurance;
+
+                }
+            } else {
+                $assurance = 0;
+                $mensuality = $mensuality + $assurance;
+            }
+
+            return response()->json([
+                "amount" => $amount,
+                "interest" => $interest_amount * $duration,
+                "du" => $amount + ($interest_amount * $duration),
+                "mensuality" => $duration,
+                "amount_mensuality" => $mensuality,
+                "taux" => $taux,
+                "type_assurance" => $request->get('assurance') != null ? $request->get('insurance') : "Aucune",
+                "assurance" => $request->get('assurance') != null ? $assurance : 0
+            ]);
+            //return response()->json([$interest_amount, $mensuality, $amount_n, $capital]);
+        }
+    }
     private function overdraft($request)
     {
         sleep(3);

@@ -38,6 +38,7 @@ class TestingSeeder extends Seeder
         $this->call(LoanPlanSeeder::class);
         $this->call(DocumentCategorySeeder::class);
         \Artisan::call("bridge:import");
+        //\Artisan::call("import:car");
 
         $users = User::factory(rand(5, 50))->create();
         $agence = Agency::factory()->create();

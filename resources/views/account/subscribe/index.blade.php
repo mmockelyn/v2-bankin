@@ -39,46 +39,13 @@
             </div>
         </div>
     </div>
-    <h3 class="fs-1">S'assurer</h3>
-    <div class="row mb-10">
-        <div class="col-4">
-            <a href="#assur_auto" data-bs-toggle="modal" class="card mb-3">
-                <img src="https://www.banquepopulaire.fr/resources/offers/subscription/images/bp/subscribe-card/insuring/car-rate.png" alt="" class="card-img-top" />
-                <div class="card-body">
-                    <h3 class="card-title">Assurance Auto</h3>
-                    <p class="card-text text-gray-500">Un contrat qui prend soin de votre véhicule mais aussi de vous, vos passagers et des tiers.</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-4">
-            <a href="" class="card mb-3">
-                <img src="https://www.banquepopulaire.fr/resources/offers/subscription/images/bp/subscribe-card/insuring/house-rate.png" alt="" class="card-img-top" />
-                <div class="card-body">
-                    <h3 class="card-title">Assurance Habitation</h3>
-                    <p class="card-text text-gray-500">Assurez votre habitation au plus près de vos besoins et de votre budget.</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-4">
-            <a href="" class="card mb-3">
-                <img src="https://www.banquepopulaire.fr/resources/offers/subscription/images/bp/subscribe-card/insuring/family.png" alt="" class="card-img-top" />
-                <div class="card-body">
-                    <h3 class="card-title">Assurance Famille</h3>
-                    <p class="card-text text-gray-500">Protégez-vous quelle que soit votre situation familiale, professionnelle et financière contre les aléas de la vie.</p>
-                </div>
-            </a>
-        </div>
-        <div class="d-flex flex-center">
-            <a class="btn btn-lg btn-outline btn-outline-bank w-500px">Tous nos produits d'assurances</a>
-        </div>
-    </div>
     <h3 class="fs-1">Emprunter</h3>
     <div class="row mb-10">
         <div class="col-4">
-            <a href="" class="card mb-3">
+            <a href="{{ route('account.subscribe.subscribe', ["type" => "facelia"]) }}" class="card mb-3">
                 <img src="https://www.banquepopulaire.fr/resources/offers/subscription/images/bp/subscribe-card/loan/housing-simulator.png" alt="" class="card-img-top" />
                 <div class="card-body">
-                    <h3 class="card-title">Pret Immobilier</h3>
+                    <h3 class="card-title">Credit renouvelable FACELIA</h3>
                     <p class="card-text text-gray-500">Protégez-vous quelle que soit votre situation familiale, professionnelle et financière contre les aléas de la vie.</p>
                 </div>
             </a>
@@ -140,9 +107,8 @@
             <a class="btn btn-lg btn-outline btn-outline-bank w-500px">Tous nos comptes et moyens de paiements</a>
         </div>
     </div>
-    @include("account.subscribe.modal.insurance")
 @endsection
 
 @section("script")
-    @include("scripts.account.insurance.index")
+
 @endsection

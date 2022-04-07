@@ -60,7 +60,7 @@
 							</span>
                         </a>
 
-                        <a href="{{ route('account.insurance.index') }}" class="menu-item {{ currentRouteActiveFront("account.insurance.index") }} me-lg-1">
+                        <a href="" class="menu-item me-lg-1">
                             <span class="menu-link py-3">
 								<span class="menu-title">Assurances</span>
 								<span class="menu-arrow d-lg-none"></span>

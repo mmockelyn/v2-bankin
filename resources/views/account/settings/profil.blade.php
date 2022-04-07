@@ -294,6 +294,35 @@
                                                 <label for="" class="form-label">Revenue net avant impot</label>
                                                 <input type="text" name="pro_incoming" class="form-control" value="{{ $user->customer->situation->pro_incoming }}">
                                             </div>
+                                            <h2 class="fw-bold mb-3">Mon Patrimoine</h2>
+                                            <x-form.input
+                                                name="patrimoine"
+                                                type="text"
+                                                label="Montant de votre patrimoine"
+                                                help="true"
+                                                helpText="Revenue accessible grace à votre patrimoine mobilier et immobilier" />
+
+                                            <h2 class="fw-bold mb-3">Mes Charges</h2>
+                                            <x-form.input
+                                                name="rent"
+                                                type="text"
+                                                label="Loyer"
+                                                help="true"
+                                                helpText="Loyer ou crédit immobilier" />
+
+                                            <x-form.input
+                                                name="credit"
+                                                type="text"
+                                                label="Crédit"
+                                                help="true"
+                                                helpText="Ensemble de vos crédits actuel" />
+
+                                            <x-form.input
+                                                name="divers"
+                                                type="text"
+                                                label="Divers"
+                                                help="true"
+                                                helpText="Autres charges..." />
                                             <!--end::Input group-->
                                         </div>
                                         <div class="card-footer text-end">

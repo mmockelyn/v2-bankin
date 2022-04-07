@@ -83,19 +83,4 @@ class Customer extends Model
     {
         return $this->hasMany(DocumentTransmiss::class);
     }
-
-    public function insuranceHomes()
-    {
-        return $this->hasMany(CustomerInsuranceHome::class);
-    }
-
-    public function insuranceAutos()
-    {
-        return $this->hasMany(CustomerInsuranceAuto::class);
-    }
-
-    public function insuranceSecuritas()
-    {
-        return $this->hasMany(CustomerInsuranceSecuritas::class);
-    }
 }

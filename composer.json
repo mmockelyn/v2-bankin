@@ -12,6 +12,7 @@
         "aws/aws-sdk-php": "^3.216",
         "barryvdh/laravel-dompdf": "^1.0",
         "barryvdh/laravel-snappy": "^1.0",
+        "bigperson/auto-base-buy": "^1.0",
         "creativeorange/gravatar": "^1.0",
         "escuelademusica/laravel-mjml": "^0.1.2",
         "fruitcake/laravel-cors": "^2.0.5",

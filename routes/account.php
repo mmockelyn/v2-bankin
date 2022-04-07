@@ -43,14 +43,11 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::post('/transmiss', [\App\Http\Controllers\Account\DocumentController::class, 'postDocument'])->name('account.document.postDocument');
     });
 
-    Route::prefix("insurance")->group(function () {
-        Route::get('/', [\App\Http\Controllers\Account\InsuranceController::class, 'index'])->name("account.insurance.index");
-    });
-
     Route::prefix("subscribe")->group(function () {
         Route::get('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'index'])->name("account.subscribe.index");
         Route::post('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'store'])->name("account.subscribe.store");
         Route::get('overdraft', [\App\Http\Controllers\Account\SubscriptionController::class, 'overdraft'])->name("account.subscribe.overdraft");
+        Route::get('subscribe', [\App\Http\Controllers\Account\SubscriptionController::class, 'subscribe'])->name("account.subscribe.subscribe");
     });
 
     Route::prefix('settings')->group(function () {
