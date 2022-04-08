@@ -48,6 +48,8 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::post('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'store'])->name("account.subscribe.store");
         Route::get('overdraft', [\App\Http\Controllers\Account\SubscriptionController::class, 'overdraft'])->name("account.subscribe.overdraft");
         Route::get('subscribe', [\App\Http\Controllers\Account\SubscriptionController::class, 'subscribe'])->name("account.subscribe.subscribe");
+        Route::get('signate/loan/{uuid}', [\App\Http\Controllers\Account\SubscriptionController::class, 'loanSignate'])->name('account.subscribe.loanSignate');
+        Route::post('signate/loan/{uuid}', [\App\Http\Controllers\Account\SubscriptionController::class, 'verifyLoanSignate'])->name('account.subscribe.verifyLoanSignate');
     });
 
     Route::prefix('settings')->group(function () {

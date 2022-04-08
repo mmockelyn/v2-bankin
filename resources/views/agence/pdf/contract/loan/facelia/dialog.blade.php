@@ -91,27 +91,31 @@ License: For each use you must have a valid license purchased only from above li
                 <td>
                     <div class="d-flex flex-column justify-content-between">
                         <span>Revenue Professionnel</span>
-                        <span class="text-end">{{ eur($customer->situation->pro_incoming) }}</span>
+                        <span class="text-end">{{ eur($budget['credit']['pro_income']) }}</span>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between">
+                        <span>Patrimoine</span>
+                        <span class="text-end">{{ eur($budget['credit']['patrimoine']) }}</span>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex flex-row justify-content-between">
                         <span>Loyer</span>
-                        <span class="text-end">{{ eur(0.00) }}</span>
+                        <span class="text-end">{{ eur($budget['debit']['loyer']) }}</span>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <span>Crédit</span>
-                        <span class="text-end">{{ eur(0.00) }}</span>
+                        <span class="text-end">{{ eur($budget['debit']['credit']) }}</span>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <span>Divers</span>
-                        <span class="text-end">{{ eur(0.00) }}</span>
+                        <span class="text-end">{{ eur($budget['debit']['divers']) }}</span>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Total Revenue Mensuel: {{ eur(2000.00) }}</td>
-                <td>Total Charge Mensuel: {{ eur(0.00) }}</td>
+                <td>Total Revenue Mensuel: {{ eur($budget['credit']['total']) }}</td>
+                <td>Total Charge Mensuel: {{ eur($budget['debit']['total']) }}</td>
             </tr>
         </tbody>
     </table>

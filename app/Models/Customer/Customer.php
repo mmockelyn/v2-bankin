@@ -24,7 +24,7 @@ class Customer extends Model
         return $this->belongsTo(Package::class);
     }
 
-    public function loan()
+    public function loans()
     {
         return $this->hasMany(CustomerLoan::class);
     }

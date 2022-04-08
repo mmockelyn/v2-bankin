@@ -6,9 +6,11 @@ use App\Helpers\Customer\DocumentFile;
 use App\Helpers\Customer\Loan;
 use App\Http\Controllers\Controller;
 use App\Models\Customer\Customer;
+use App\Models\Customer\CustomerLoan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
+use Twilio\Rest\Client;
 
 class SubscriptionController extends Controller
 {
@@ -57,6 +59,21 @@ class SubscriptionController extends Controller
         }
     }
 
+    public function loanSignate(Request $request, $uuid)
+    {
+        $loan = CustomerLoan::where('uuid', $uuid)->first();
+
+        $twillo = new Client(config('twilio-notification-channel.account_sid'), config('twilio-notification-channel.auth_token'));
+        $verif = $twillo->verify->v2->services('VA29791f087369ca5f8c19e5629b40665e')
+            ->verifications
+            ->create(\App\Helpers\Customer\Customer::getPhone($loan->customer), "sms");
+
+        return view('account.subscribe.loan.signate', [
+            "loan" => $loan,
+            "verif" => $verif->url
+        ]);
+    }
+
     private function storeOverdraft($request)
     {
         Carbon::setLocale('fr');
@@ -90,7 +107,67 @@ class SubscriptionController extends Controller
 
         $simulate = $loan->simulate($request->get('amount'), $request->get('duration'), $request->get('insurance'));
 
+        $check = $loan->checkAvailibilityContract($simulate, $request->user()->customer);
 
+        if($check == 'DECLINED') {
+            $contract = $loan->create(
+                $request->get('amount'), $simulate['interest'], $simulate['du'], $simulate['amount_mensuality'], $simulate['mensuality'], $request->get('insurance'), 1, $request->user()->customer->wallets()->first()->id, $request->user()->customer->id, 3
+            );
+            $template = '
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger">
+                    <h3 class="card-title text-white">Votre demande de crédit renouvellable FACELIA</h3>
+
+                </div>
+                <div class="card-body">
+                    <p>
+                    Nous avons bien reçu votre de financement d\'un montant de '.eur($request->get("amount")).' et nous en remercions.<br>
+                    Toutefois, votre situation actuel ne nous permet pas de répondre favorablement à votre demande.
+                    </p>
+                </div>
+            </div>
+            ';
+        } elseif ($check == 'WAITING') {
+            $contract = $loan->create(
+                $request->get('amount'), $simulate['interest'], $simulate['du'], $simulate['amount_mensuality'], $simulate['mensuality'], $request->get('insurance'), 1, $request->user()->customer->wallets()->first()->id, $request->user()->customer->id, 1
+            );
+            $template = '
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning">
+                    <h3 class="card-title text-white">Votre demande de crédit renouvellable FACELIA</h3>
+
+                </div>
+                <div class="card-body">
+                    <p>
+                    Nous avons bien reçu votre de financement d\'un montant de '.eur($request->get("amount")).' et nous en remercions.<br>
+                    Nous ne pouvons donner une suite favorable immédiatement.<br>
+                    Notre équipe va étudier votre dossier, et nous reviendrons vers vous le plus rapidement possible (Entre 12h et 24h).
+                    </p>
+                </div>
+            </div>
+            ';
+        } else {
+            $contract = $loan->create(
+                $request->get('amount'), $simulate['interest'], $simulate['du'], $simulate['amount_mensuality'], $simulate['mensuality'], $request->get('insurance'), 1, $request->user()->customer->wallets()->first()->id, $request->user()->customer->id, 2
+            );
+            $template = '
+            <div class="card shadow-sm">
+                <div class="card-header bg-success">
+                    <h3 class="card-title text-white">Votre demande de crédit renouvellable FACELIA</h3>
+
+                </div>
+                <div class="card-body">
+                    <p>
+                    Nous avons bien reçu votre de financement d\'un montant de '.eur($request->get("amount")).' et nous en remercions.<br>
+                    Votre demande à été étudier et nous pouvons donner une suite favorable.<br>
+                    Vous allez recevoir un email avec un lien afin de signer vos document contractuel.
+                    </p>
+                </div>
+            </div>
+            ';
+        }
+
+        return response()->json($template);
     }
 
     private function generateContract($type, $customer)

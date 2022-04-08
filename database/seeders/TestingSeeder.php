@@ -12,6 +12,7 @@ use App\Models\Customer\CustomerCompany;
 use App\Models\Customer\CustomerCreditCard;
 use App\Models\Customer\CustomerIndividual;
 use App\Models\Customer\CustomerLevy;
+use App\Models\Customer\CustomerLoan;
 use App\Models\Customer\CustomerSetting;
 use App\Models\Customer\CustomerSituation;
 use App\Models\Customer\CustomerTransaction;
@@ -101,6 +102,14 @@ class TestingSeeder extends Seeder
                 foreach ($beneficiaires as $beneficiaire) {
                     CustomerBeneficiaireBank::factory()->create([
                         "customer_beneficiaire_id" => $beneficiaire->id
+                    ]);
+                }
+
+                $r = rand(0,1);
+                if($r == 1) {
+                    CustomerLoan::factory()->create([
+                        "customer_wallet_id" => $wallet->id,
+                        "customer_id" => $customer->id
                     ]);
                 }
             }

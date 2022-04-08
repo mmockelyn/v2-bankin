@@ -13,7 +13,12 @@ class CustomerLoan extends Model
 
     public function plan()
     {
-        return $this->belongsTo(LoanPlan::class);
+        return $this->belongsTo(LoanPlan::class, 'loan_plan_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function wallet()

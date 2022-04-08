@@ -187,6 +187,7 @@
             </div>
         </div>
     </form>
+    <div id="resultRequest"></div>
 @endsection
 
 @section("script")
