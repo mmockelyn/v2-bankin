@@ -24,7 +24,7 @@ class Customer extends Model
         return $this->belongsTo(Package::class);
     }
 
-    public function loan()
+    public function loans()
     {
         return $this->hasMany(CustomerLoan::class);
     }
@@ -82,10 +82,5 @@ class Customer extends Model
     public function transmisses()
     {
         return $this->hasMany(DocumentTransmiss::class);
-    }
-
-    public function insuranceHomes()
-    {
-        return $this->hasMany(CustomerInsuranceHome::class);
     }
 }

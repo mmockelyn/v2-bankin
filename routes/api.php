@@ -39,3 +39,7 @@ Route::prefix('transaction')->group(function () {
     Route::get('{uuid}', [\App\Http\Controllers\Api\TransactionController::class, 'info']);
 });
 
+Route::prefix('list')->group(function () {
+    Route::get('cars', [\App\Http\Controllers\Api\ListController::class, 'cars']);
+});
+

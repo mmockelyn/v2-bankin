@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CustomerInsuranceHomeHouseSeeder extends Seeder
+class CarYearSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -43,14 +43,13 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::post('/transmiss', [\App\Http\Controllers\Account\DocumentController::class, 'postDocument'])->name('account.document.postDocument');
     });
 
-    Route::prefix("insurance")->group(function () {
-        Route::get('/', [\App\Http\Controllers\Account\InsuranceController::class, 'index'])->name("account.insurance.index");
-    });
-
     Route::prefix("subscribe")->group(function () {
         Route::get('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'index'])->name("account.subscribe.index");
         Route::post('/', [\App\Http\Controllers\Account\SubscriptionController::class, 'store'])->name("account.subscribe.store");
         Route::get('overdraft', [\App\Http\Controllers\Account\SubscriptionController::class, 'overdraft'])->name("account.subscribe.overdraft");
+        Route::get('subscribe', [\App\Http\Controllers\Account\SubscriptionController::class, 'subscribe'])->name("account.subscribe.subscribe");
+        Route::get('signate/loan/{uuid}', [\App\Http\Controllers\Account\SubscriptionController::class, 'loanSignate'])->name('account.subscribe.loanSignate');
+        Route::post('signate/loan/{uuid}', [\App\Http\Controllers\Account\SubscriptionController::class, 'verifyLoanSignate'])->name('account.subscribe.verifyLoanSignate');
     });
 
     Route::prefix('settings')->group(function () {
@@ -64,4 +63,7 @@ Route::middleware(["auth", "open"])->prefix('compte')->group(function () {
         Route::get('instant', [\App\Http\Controllers\Account\SettingsController::class, 'instant'])->name("account.settings.instant");
         Route::put('instant', [\App\Http\Controllers\Account\SettingsController::class, 'updateInstant'])->name("account.settings.updateInstant");
     });
+
+    Route::get('update', [\App\Http\Controllers\Account\AccountController::class, 'edit'])->name('account.edit');
+    Route::post('update', [\App\Http\Controllers\Account\AccountController::class, 'update'])->name('account.update');
 });

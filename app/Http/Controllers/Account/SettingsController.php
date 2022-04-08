@@ -57,6 +57,10 @@ class SettingsController extends Controller
                     $customer->pro_category = $request->get('pro_category');
                     $customer->pro_profession = $request->get('pro_profession');
                     $customer->pro_incoming = $request->get('pro_incoming');
+                    $customer->patrimoine = $request->get('patrimoine');
+                    $customer->rent = $request->get('rent');
+                    $customer->credit = $request->get('credit');
+                    $customer->divers = $request->get('divers');
                     $customer->save();
 
                     return response()->json(null);

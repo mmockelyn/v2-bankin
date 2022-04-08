@@ -25,6 +25,10 @@ return new class extends Migration
             $table->string('pro_category_detail')->nullable();
             $table->string("pro_profession")->nullable();
             $table->float("pro_incoming")->default(0);
+            $table->float('patrimoine')->default(0);
+            $table->float('rent')->default(0);
+            $table->float('credit')->default(0);
+            $table->float('divers')->default(0);
             $table->timestamps();
 
             $table->foreignId('customer_id')

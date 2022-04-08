@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39fbc7adfab52ea28cb024694cee73b8",
+    "content-hash": "a6f542cd3e89fdebd78becdef9a21c37",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -611,6 +611,53 @@
                 }
             ],
             "time": "2022-01-29T19:36:49+00:00"
+        },
+        {
+            "name": "bigperson/auto-base-buy",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bigperson/auto-base-buy.git",
+                "reference": "3274fb85ed47eee665a807383854f58ac836d55e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bigperson/auto-base-buy/zipball/3274fb85ed47eee665a807383854f58ac836d55e",
+                "reference": "3274fb85ed47eee665a807383854f58ac836d55e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bigperson\\AutoBaseBuy\\AutoBaseBuyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bigperson\\AutoBaseBuy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Kartsev",
+                    "email": "anton@alarmcrm.ru"
+                }
+            ],
+            "description": "The package allows you to access data through the base car by model",
+            "support": {
+                "issues": "https://github.com/bigperson/auto-base-buy/issues",
+                "source": "https://github.com/bigperson/auto-base-buy/tree/1.0.2"
+            },
+            "time": "2022-03-07T18:05:44+00:00"
         },
         {
             "name": "brick/math",
@@ -14158,5 +14205,5 @@
         "php": "7.1 || 7.2 || ^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

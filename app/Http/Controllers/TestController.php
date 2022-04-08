@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 
-use App\Helpers\InsurancePriceHome;
+use App\Helpers\Customer\Loan;
+use App\Models\Core\LoanPlan;
+use App\Models\Customer\Customer;
+use App\Models\Customer\CustomerLoan;
 
 class TestController extends Controller
 {
     public function test()
     {
-        $simulate = new InsurancePriceHome();
+        $loan = new Loan();
+        $customer = Customer::find(2);
+        $simulate = $loan->simulate(5000, 36, "D");
+        //dd($loanp);
 
-        dd(
-            eur($simulate->simulate(
-                'essentiel', 'locataire', 'principal', 2, 50, 'maison', 't3', false, false, false, false, false,0)),
-            eur($simulate->simulate(
-                'essentiel', 'locataire', 'principal', 2, 50, 'maison', 't3', false, false, false, false, false,0) / 12)
-        );
+        return $loan->checkAvailibilityContract($simulate, $customer);
     }
 }

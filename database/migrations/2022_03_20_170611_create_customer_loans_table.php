@@ -35,6 +35,12 @@ return new class extends Migration
                             ->cascadeOnUpdate()
                             ->cascadeOnDelete();
 
+            $table->foreignId('customer_id')
+                            ->constrained()
+                            ->cascadeOnUpdate()
+                            ->cascadeOnDelete();
+
+
             $table->foreignId('customer_wallet_id')
                             ->constrained()
                             ->cascadeOnUpdate()
